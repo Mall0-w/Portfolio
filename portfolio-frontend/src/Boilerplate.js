@@ -1,11 +1,12 @@
-import {AppBar, Box, Button, Divider, Grid, IconButton, Paper, Tab, Tabs, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, Divider, Grid, IconButton, Paper, Tab, Tabs, Toolbar, Typography, useTheme} from "@mui/material";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GitHubButton from "./Buttons/GitHubButton.js";
 import { useState } from "react";
 import LinkedInButton from "./Buttons/LinkedInButton.js";
+import HoverButton from "./Buttons/HoverButton.js";
+
 function BoilerPlate(props){
     const [currTab, setCurrTab] = useState("home")
-
     return(
         <Box sx={{width:"100vw", height:"100vh"}} >
            <Box sx={{width:"100%"}}>
@@ -15,14 +16,13 @@ function BoilerPlate(props){
                             <Grid item>
                                 <Tabs value={currTab} onChange={(e, value) => setCurrTab(value)} 
                                     aria-label="navigation tabs"
-                                    textColor="secondary"
                                     indicatorColor="secondary">
-                                    <Tab label="Home" />
-                                    <Tab label="Recent Projects" />
-                                    <Tab label="About" />
-                                    <Button color="secondary">
+                                    <HoverTab value="home" label="Home" />
+                                    <HoverTab value="projects" label="Recent Projects" />
+                                    <HoverTab value="about" label="About" />
+                                    <HoverButton variant="outlined" sx={{marginTop:'1%', marginBottom:'1%', marginRight:'1%'}}>
                                         Contact
-                                    </Button>
+                                    </HoverButton>
                                     <Divider orientation="vertical" flexItem/>
                                     <GitHubButton/>
                                     <LinkedInButton/>
@@ -35,6 +35,11 @@ function BoilerPlate(props){
            {props.children}
         </Box>
     )
+}
+
+function HoverTab(props){
+    const theme = useTheme()
+    return <Tab {...props} sx={{"&:hover":{color:theme.palette.primary.main}}}/>
 }
 
 export default BoilerPlate

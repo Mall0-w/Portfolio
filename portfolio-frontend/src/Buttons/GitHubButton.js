@@ -1,9 +1,11 @@
 import GitHubIcon from "@mui/icons-material/GitHub"
-import { IconButton } from "@mui/material"
+import { IconButton, useTheme } from "@mui/material"
 function GitHubButton(props){
+
+    const theme = useTheme()
     return(
-        <IconButton onClick={() => window.location.href = process.env.REACT_APP_GITHUB} size="large">
-            <GitHubIcon fontSize="large"/>
+        <IconButton onClick={() => window.location.href = process.env.REACT_APP_GITHUB} size="large" sx={{"&:hover":{color:theme.palette.primary.main}}}>
+            <GitHubIcon fontSize="large" />
         </IconButton>
     )
 }

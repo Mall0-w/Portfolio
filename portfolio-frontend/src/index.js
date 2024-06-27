@@ -8,6 +8,8 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import Home from './Home';
+import { createTheme, ThemeProvider } from '@mui/material';
+import { green, purple, yellow } from '@mui/material/colors';
 
 const router = createBrowserRouter([
   {
@@ -16,11 +18,27 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: yellow[800],
+    },
+  },
+});
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
