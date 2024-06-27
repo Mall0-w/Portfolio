@@ -7,14 +7,16 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom"
-import Home from './Home';
+import Home from './Pages/Home';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { green, purple, yellow } from '@mui/material/colors';
+import NotFound from './Pages/NotFound';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>,
+    element: <App/>,
+    errorElement: <NotFound/>
   },
 ]);
 
