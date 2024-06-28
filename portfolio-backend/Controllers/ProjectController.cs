@@ -1,6 +1,7 @@
 using Projects.Models;
 using Projects.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Projects.Controllers;
 
@@ -8,47 +9,56 @@ namespace Projects.Controllers;
 [Route("[controller]")]
 public class ProjectController : ControllerBase
 {
-    public ProjectController()
+
+    private ProjectService service; 
+    public ProjectController(ProjectDb db)
     {
+        service = new ProjectService(db);
     }
 
     // GET all action
     [HttpGet]
-    public ActionResult<List<Project>> GetAll() =>
-        ProjectService.GetAll();
+    public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
+        return await service.GetAll();
+    }
+        
 
     // GET by Id action
     [HttpGet("{id}")]
-    public ActionResult<Project> GetById(long id) {
-        var project = ProjectService.Get(id);
+    public async Task<ActionResult<Project?>> GetById(long id) {
+        var project = await service.Get(id);
         return project is null ? NotFound() : project;
     }
 
+
     // POST action
     [HttpPost]
-    public IActionResult Create(Project p){
-        ProjectService.Add(p);
-        return CreatedAtAction(nameof(GetById),new {Id = p.Id}, p);
+    public async Task<IActionResult> Create(Project p){
+        await service.Add(p);
+        return CreatedAtAction(nameof(GetById),new {id = p.Id}, p);
     }
 
     // PUT action
     [HttpPut("{id}")]
-    public IActionResult Put(long id, Project p){
+    public async Task<IActionResult> Put(long id, Project p){
         if(id != p.Id)
             return BadRequest();
-        
-        if(ProjectService.Get(id) is null)
-            return NotFound();
-
-        ProjectService.Update(p);
+        try{
+            await service.Update(p);
+        }catch(DbUpdateConcurrencyException){
+            if(service.Get(id) is null)
+                return NotFound();
+            else
+                throw;
+        }
 
         return NoContent();
     }
     
     // DELETE action
     [HttpDelete("{id}")]
-    public ActionResult Delete(long id){
-        ProjectService.Delete(id);
+    public async Task<ActionResult> Delete(long id){
+        await service.Delete(id);
         return NoContent();
     }
 }

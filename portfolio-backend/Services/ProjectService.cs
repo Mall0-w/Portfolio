@@ -1,45 +1,42 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Projects.Models;
 
 namespace Projects.Services;
 
-public static class ProjectService
-{
-    static List<Project> Projects { get; }
-    static int nextId = 3;
-    static ProjectService()
-    {
-        Projects = new List<Project>
-        {
-            new Project { Id = 1, Name = "JC4", Desc="A cute little console connect 4 game designed using Java", FinishedOn = new DateOnly(2024, 6, 27) },
-            new Project { Id = 2, Name = "Portfolio", Desc="My own webportfolio (The website you're on now!).  Stack: React, ASP.Net MSSQL"}
-        };
+public class ProjectService{
+    private ProjectDb db;
+    public ProjectService(ProjectDb db){
+        this.db = db;
     }
 
-    public static List<Project> GetAll() => Projects;
-
-    public static Project? Get(long id) => Projects.FirstOrDefault(p => p.Id == id);
-
-    public static void Add(Project Project)
-    {
-        Project.Id = nextId++;
-        Projects.Add(Project);
+    public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
+        return await db.Projects.ToListAsync();
     }
 
-    public static void Delete(long id)
-    {
-        var Project = Get(id);
-        if(Project is null)
+    public async Task<ActionResult<Project?>> Get(long id){
+        return await db.Projects.FindAsync(id);
+    }
+
+    public async Task Add(Project project){
+        db.Projects.Add(project);
+        await db.SaveChangesAsync();
+
+        return;
+    }   
+
+    public async Task Delete(long id){
+        var p = await db.Projects.FindAsync(id);
+        if(p == null)
             return;
-
-        Projects.Remove(Project);
+        db.Projects.Remove(p);
+        await db.SaveChangesAsync();
+        return;
     }
 
-    public static void Update(Project Project)
-    {
-        var index = Projects.FindIndex(p => p.Id == Project.Id);
-        if(index == -1)
-            return;
-
-        Projects[index] = Project;
+    public async Task Update(Project proj){
+        db.Entry(proj).State = EntityState.Modified;
+        await db.SaveChangesAsync();
+        return;
     }
 }
