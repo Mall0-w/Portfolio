@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Projects.Models;
 using DotNetEnv;
+using Portfolio.db;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ProjectDb>(options => {
+builder.Services.AddDbContext<PortfolioDb>(options => {
     options.UseSqlServer(string.Format("Server={0};Database={1};Trusted_Connection=True;TrustServerCertificate=True",
         Env.GetString("SQL_SERVER"), Env.GetString("SQL_DATABASE")));
     });

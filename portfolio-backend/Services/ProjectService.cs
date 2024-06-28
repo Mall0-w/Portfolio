@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Portfolio.db;
 using Projects.Models;
 
 namespace Projects.Services;
 
 public class ProjectService{
-    private ProjectDb db;
-    public ProjectService(ProjectDb db){
+    private PortfolioDb db;
+    public ProjectService(PortfolioDb db){
         this.db = db;
     }
 

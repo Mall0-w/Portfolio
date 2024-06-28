@@ -2,6 +2,7 @@ using Projects.Models;
 using Projects.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Portfolio.db;
 
 namespace Projects.Controllers;
 
@@ -11,7 +12,7 @@ public class ProjectController : ControllerBase
 {
 
     private ProjectService service; 
-    public ProjectController(ProjectDb db)
+    public ProjectController(PortfolioDb db)
     {
         service = new ProjectService(db);
     }
