@@ -12,9 +12,9 @@ public class ProjectController : ControllerBase
 {
 
     private ProjectService service; 
-    public ProjectController(PortfolioDb db)
+    public ProjectController(PortfolioDb db, ILogger<ProjectService> logger)
     {
-        service = new ProjectService(db);
+        service = new ProjectService(db,logger);
     }
 
     // GET all action
@@ -41,20 +41,31 @@ public class ProjectController : ControllerBase
 
     // PUT action
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(long id, Project p){
-        if(id != p.Id)
+    public async Task<IActionResult> Put(long id, ProjectWithIdArray p){
+        if(id != p.Project.Id)
             return BadRequest();
         try{
             await service.Update(p);
-        }catch(DbUpdateConcurrencyException){
-            if(service.Get(id) is null)
-                return NotFound();
-            else
-                throw;
+        }catch(ArgumentException e){
+            return NotFound(e.Message);
         }
 
         return NoContent();
     }
+    // public async Task<IActionResult> Put(long id, Project p){
+    //     if(id != p.Id)
+    //         return BadRequest();
+    //     try{
+    //         await service.Update(p);
+    //     }catch(DbUpdateConcurrencyException){
+    //         if(service.Get(id) is null)
+    //             return NotFound();
+    //         else
+    //             throw;
+    //     }
+
+    //     return NoContent();
+    // }
     
     // DELETE action
     [HttpDelete("{id}")]

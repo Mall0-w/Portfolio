@@ -8,5 +8,5 @@ public class PortfolioDb : DbContext
     public PortfolioDb(DbContextOptions options) : base(options) { }
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<Technology> Technologies {get; set;} = null!;
-    public DbSet<ProjectTechMapping> ProjectTechMappings {get; set;} = null!;
+    
 }

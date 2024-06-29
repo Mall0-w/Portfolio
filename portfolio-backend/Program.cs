@@ -14,7 +14,8 @@ builder.Services.AddDbContext<PortfolioDb>(options => {
     options.UseSqlServer(string.Format("Server={0};Database={1};Trusted_Connection=True;TrustServerCertificate=True",
         Env.GetString("SQL_SERVER"), Env.GetString("SQL_DATABASE")));
     });
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

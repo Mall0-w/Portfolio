@@ -11,6 +11,7 @@ public class Project
     public DateOnly? FinishedOn {get; set;}
 
     public string? Link {get; set;}
+    public List <Technology> Technologies {get;set;} = new List<Technology>();
 }
 
 public class ProjectWithIdArray{
@@ -18,13 +19,7 @@ public class ProjectWithIdArray{
     public long[]? Ids {get; set;}
 }
 
-public class ProjectWithTechnologies{
-    public required Project Project {get; set;}
-    public Technology[]? Technologies {get; set;}
-}
-
-public class ProjectTechMapping{
-    public long Id {get; set;}
-    public required long ProjectId {get; set;}
-    public required long TechId {get; set;}
-}
+// public class ProjectWithTechnologies{
+//     public required Project Project {get; set;}
+//     public Technology[]? Technologies {get; set;}
+// }
