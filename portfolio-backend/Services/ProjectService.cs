@@ -14,34 +14,81 @@ public class ProjectService{
         this._logger = logger;
     }
 
-    private IQueryable<Project> JoinProjectTechnology(){
-        return db.Projects
-        .Select(p => new Project
+    // private Project BreakJoinCycle(){
+    //     return db.Projects
+    //     .Select(p => new Project
+    //     {
+    //         Id = p.Id,
+    //         Name = p.Name,
+    //         Desc = p.Desc,
+    //         FinishedOn = p.FinishedOn,
+    //         Link = p.Link,
+    //         Technologies = p.Technologies.Select(t => new Technology
+    //         {
+    //             Id = t.Id,
+    //             Name = t.Name
+    //             // Optionally include other properties as needed
+    //         }).ToList()
+    //     });
+    // }
+
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
+        //have to select or else technologies will infinetly recurse with projects because many to many
+         var projects = await db.Projects
+                           .Include(p => p.Technologies)
+                           .ToListAsync();
+
+        var projectDtos = projects.Select(project => new ProjectDto
         {
-            Id = p.Id,
-            Name = p.Name,
-            Desc = p.Desc,
-            FinishedOn = p.FinishedOn,
-            Link = p.Link,
-            Technologies = p.Technologies.Select(t => new Technology
+            Id = project.Id,
+            Name = project.Name,
+            Desc = project.Desc,
+            FinishedOn = project.FinishedOn,
+            Link = project.Link,
+            Technologies = project.Technologies.Select(t => new TechnologyDto
             {
                 Id = t.Id,
                 Name = t.Name
-                // Optionally include other properties as needed
             }).ToList()
-        });
+        }).ToList();
+
+        return projectDtos;
     }
 
-    public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
-        //have to select or else technologies will infinetly recurse with projects because many to many
-        return await JoinProjectTechnology().ToListAsync();
+    public async Task<ActionResult<ProjectDto?>> Get(long id){
+        var project = await db.Projects
+                          .Include(p => p.Technologies)
+                          .FirstOrDefaultAsync(p => p.Id == id);
+        if(project == null)
+            return null;
+
+        var projectDto = new ProjectDto
+        {
+            Id = project.Id,
+            Name = project.Name,
+            Desc = project.Desc,
+            FinishedOn = project.FinishedOn,
+            Link = project.Link,
+            Technologies = project.Technologies.Select(t => new TechnologyDto
+            {
+                Id = t.Id,
+                Name = t.Name
+            }).ToList()
+        };
+
+        return projectDto;
     }
 
-    public async Task<ActionResult<Project?>> Get(long id){
-        return await JoinProjectTechnology().FirstOrDefaultAsync(p => p.Id == id);
-    }
+    public async Task Add(ProjectWithIdArray p){
+        var project = p.Project;
+        var ids = p.Technologies;
+        if(ids is not null){
+            var Technologies = await db.Technologies.Where(t => ids.Contains(t.Id)).ToListAsync();
+            if(Technologies.Count() != ids.Length)
+                throw new ArgumentException("id array contains an id that does not exist");
+            project.Technologies = new List<Technology>(Technologies);
+        }
 
-    public async Task Add(Project project){
         db.Projects.Add(project);
         await db.SaveChangesAsync();
 
@@ -59,7 +106,7 @@ public class ProjectService{
 
     public async Task Update(ProjectWithIdArray proj){
         var project = proj.Project;
-        var ids = proj.Ids;
+        var ids = proj.Technologies;
         using (var transaction = await db.Database.BeginTransactionAsync()){
             try{
                 //find project (will throw error later if not found which is no big deal)

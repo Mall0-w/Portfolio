@@ -19,14 +19,14 @@ public class ProjectController : ControllerBase
 
     // GET all action
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
         return await service.GetAll();
     }
         
 
     // GET by Id action
     [HttpGet("{id}")]
-    public async Task<ActionResult<Project?>> GetById(long id) {
+    public async Task<ActionResult<ProjectDto?>> GetById(long id) {
         var project = await service.Get(id);
         return project is null ? NotFound() : project;
     }
@@ -34,9 +34,13 @@ public class ProjectController : ControllerBase
 
     // POST action
     [HttpPost]
-    public async Task<IActionResult> Create(Project p){
-        await service.Add(p);
-        return CreatedAtAction(nameof(GetById),new {id = p.Id}, p);
+    public async Task<IActionResult> Create(ProjectWithIdArray p){
+        try{
+            await service.Add(p);
+        }catch(ArgumentException e){
+            return NotFound(e.Message);
+        }
+        return CreatedAtAction(nameof(GetById),new {id = p.Project.Id}, p.Project);
     }
 
     // PUT action
