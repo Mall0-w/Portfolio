@@ -14,12 +14,31 @@ public class ProjectService{
         this._logger = logger;
     }
 
+    private IQueryable<Project> JoinProjectTechnology(){
+        return db.Projects
+        .Select(p => new Project
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Desc = p.Desc,
+            FinishedOn = p.FinishedOn,
+            Link = p.Link,
+            Technologies = p.Technologies.Select(t => new Technology
+            {
+                Id = t.Id,
+                Name = t.Name
+                // Optionally include other properties as needed
+            }).ToList()
+        });
+    }
+
     public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
-        return await db.Projects.ToListAsync();
+        //have to select or else technologies will infinetly recurse with projects because many to many
+        return await JoinProjectTechnology().ToListAsync();
     }
 
     public async Task<ActionResult<Project?>> Get(long id){
-        return await db.Projects.FindAsync(id);
+        return await JoinProjectTechnology().FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task Add(Project project){
