@@ -25,7 +25,7 @@ public class TechController : ControllerBase{
         return await this.service.Get(id);
     }
 
-    [HttpPut]
+    [HttpPost]
     public async Task<IActionResult> Add(Technology t){
         await this.service.Add(t);
         return CreatedAtAction(nameof(GetById),new {id = t.Id}, t);
