@@ -56,21 +56,6 @@ public class ProjectController : ControllerBase
 
         return NoContent();
     }
-    // public async Task<IActionResult> Put(long id, Project p){
-    //     if(id != p.Id)
-    //         return BadRequest();
-    //     try{
-    //         await service.Update(p);
-    //     }catch(DbUpdateConcurrencyException){
-    //         if(service.Get(id) is null)
-    //             return NotFound();
-    //         else
-    //             throw;
-    //     }
-
-    //     return NoContent();
-    // }
-    
     // DELETE action
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(long id){

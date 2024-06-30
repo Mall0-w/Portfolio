@@ -14,24 +14,6 @@ public class ProjectService{
         this._logger = logger;
     }
 
-    // private Project BreakJoinCycle(){
-    //     return db.Projects
-    //     .Select(p => new Project
-    //     {
-    //         Id = p.Id,
-    //         Name = p.Name,
-    //         Desc = p.Desc,
-    //         FinishedOn = p.FinishedOn,
-    //         Link = p.Link,
-    //         Technologies = p.Technologies.Select(t => new Technology
-    //         {
-    //             Id = t.Id,
-    //             Name = t.Name
-    //             // Optionally include other properties as needed
-    //         }).ToList()
-    //     });
-    // }
-
     public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
         //have to select or else technologies will infinetly recurse with projects because many to many
          var projects = await db.Projects
@@ -145,10 +127,4 @@ public class ProjectService{
         }
        
     }
-
-    // public async Task Update(Project proj){
-    //     db.Entry(proj).State = EntityState.Modified;
-    //     await db.SaveChangesAsync();
-    //     return;
-    // }
 }

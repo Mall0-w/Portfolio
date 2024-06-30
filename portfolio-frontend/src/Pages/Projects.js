@@ -3,7 +3,7 @@ import { forwardRef } from "react"
 
 const Projects = forwardRef((props, ref) => {
     return (
-        <Box height="200px" width="100%" color="black" backgroundColor="black" ref={ref}>
+        <Box id="projects" height="100vh" width="100%" color="black" backgroundColor="black" ref={ref}>
         </Box>
     )
 })

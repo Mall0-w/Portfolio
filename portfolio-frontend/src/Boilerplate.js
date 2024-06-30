@@ -10,13 +10,18 @@ function BoilerPlate(props){
     const [currTab, setCurrTab] = useState("home")
 
     const updateCurrTab = (e, value) => {
+        //if changed tabs by clicking, then navigate
         setCurrTab(value);
+        if(e.type === 'click'){
+            props.updateTab(value);
+        }
+            
     }
 
     useEffect(() => {
-        console.log("test", currTab)
-        props.updateTab(currTab)
-    },[currTab])
+        //set curr tab if changed from scrolling
+        setCurrTab(props.parentTab)
+    },[props.parentTab])
 
     return(
         <Box sx={{minWidth:"100vw", minHeight:"100vh"}} >

@@ -5,7 +5,7 @@ const Home = forwardRef((props, ref) => {
 
     return(
         
-        <Box height="400px" width="100%" color="red" backgroundColor="red" ref={ref}>
+        <Box id="home" height="100vh" width="100%" color="red" backgroundColor="red" ref={ref}>
         </Box>
     )
 })

@@ -1,6 +1,6 @@
 import { Box, FormControlLabel, Switch, Paper, Slide, Typography } from "@mui/material";
 import BoilerPlate from "./Boilerplate.js";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import Home from "./Pages/Home.js";
 import Contact from "./Pages/Contact.js";
 import Projects from "./Pages/Projects.js";
@@ -8,10 +8,8 @@ import About from "./Pages/About.js";
 
 function App(props) {
   const pages = ['home', 'projects', 'about', "contact"];
-  // const homeRef = useRef(null);
-  // const projectRef = useRef(null);
-  // const aboutRef = useRef(null);
-  // const contactRef = useRef(null);
+
+  const [currTab, setCurrTab] = useState('home')
 
   //using some whacky functionaly programming to get an object of key/ref pairs
   const sectionRefs = useRef(
@@ -21,17 +19,46 @@ function App(props) {
     }, {})
   )
 
+  useEffect(()=>{
+    //setting up an observer to see what party of the page we're on
+    const observer = new IntersectionObserver((entries) => {
+      //set current tab to whatever page is on screen
+        let selected = null;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            selected = entry.target.id;
+          }
+        });
+        if (selected) {
+          setCurrTab(selected);
+        }
+      },
+      { threshold: 0.6 } // Adjust threshold as needed
+    );
+
+    Object.keys(sectionRefs.current).forEach((k) => {
+      observer.observe(sectionRefs.current[k].current)
+    })
+
+    return () => {
+      Object.keys(sectionRefs.current).forEach((k) => {
+        observer.unobserve(sectionRefs.current[k].current)
+      })
+    }
+  }, [])
+
   function navToRef(page){
     //if ref exists, scroll to corresponding page
     if(!sectionRefs.current)
       return
+    setCurrTab(page)
     let refToScroll = sectionRefs.current[page]
     if(refToScroll && refToScroll.current)
       refToScroll.current.scrollIntoView({ behavior: 'smooth' })
   }
 
     return (
-      <BoilerPlate updateTab={(v) => navToRef(v)}>
+      <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab}>
         <Home ref={sectionRefs.current['home']}/>
         <Projects ref={sectionRefs.current['projects']}/>
         <About ref={sectionRefs.current['about']}/>
