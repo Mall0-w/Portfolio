@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { green, purple, yellow } from '@mui/material/colors';
 import NotFound from './Pages/NotFound';
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,14 +26,17 @@ const router = createBrowserRouter([
 export const theme = createTheme({
   palette: {
     primary: {
-      main: purple[500],
+      main: green[900],
+      contrastText: "white",
     },
     secondary: {
       main: yellow[800],
+      
     },
   },
   typography:{
-    fontFamily: "VT323, Roboto, Arial, sans-serif"
+    fontFamily: "VT323, Roboto, Arial, sans-serif",
+    color:green[900]
   },
   components: {
     MuiTab: {
@@ -41,6 +45,7 @@ export const theme = createTheme({
           fontFamily: 'VT323, Roboto, Arial, sans-serif',
           fontSize: '25px',
           textTransform: 'none', // Optional: Disable uppercase transformation
+          color:green[900]
         },
       }
     }

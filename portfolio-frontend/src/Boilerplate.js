@@ -24,14 +24,15 @@ function BoilerPlate(props){
     },[props.parentTab])
 
     return(
-        <>
+        <Box sx={{background: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(16,0,65,1) 100%)", maxWidth:"100%", width:'100%'}}>
         <AppBar position="sticky" sx={{ background: 'transparent', boxShadow: 'none'}}>
             <Toolbar >
                 <Grid item container xs={12} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
                     <Grid item>
                         <Tabs value={currTab} onChange={updateCurrTab} 
                             aria-label="navigation tabs"
-                            indicatorColor="secondary">
+                            indicatorColor="primary"
+                            textColor="secondary">
                             <HoverTab value="home" label="Home" />
                             <HoverTab value="projects" label="Recent Projects" />
                             <HoverTab value="about" label="About" />
@@ -44,14 +45,17 @@ function BoilerPlate(props){
                 </Grid>
             </Toolbar>
         </AppBar>
-        {props.children}
-    </>
+        <Box sx={{padding:"1.5%"}}>
+            {props.children}
+        </Box>
+        
+    </Box>
     )
 }
 
 function HoverTab(props){
     const theme = useTheme()
-    return <Tab {...props} sx={{"&:hover":{color:theme.palette.primary.main}}}/>
+    return <Tab {...props} sx={{"&:hover":{color:theme.palette.secondary.main}}}/>
 }
 
 BoilerPlate.propTypes = {

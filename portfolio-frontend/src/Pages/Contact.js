@@ -3,7 +3,7 @@ import { forwardRef } from "react"
 
 const Contact = forwardRef((props, ref) => {
     return (
-        <Box id="contact" height="30vh" width="100%" color="purple" backgroundColor="purple">
+        <Box id="contact" height="30vh" width="100%">
             <button ref={ref}>test</button>
         </Box>
     )

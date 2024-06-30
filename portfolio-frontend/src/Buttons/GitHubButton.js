@@ -4,7 +4,8 @@ function GitHubButton(props){
 
     const theme = useTheme()
     return(
-        <IconButton onClick={() => window.location.href = process.env.REACT_APP_GITHUB} size="large" sx={{"&:hover":{color:theme.palette.primary.main}}}>
+        <IconButton onClick={() => window.location.href = process.env.REACT_APP_GITHUB} size="large" sx={{color:theme.palette.primary.main, 
+        "&:hover":{color:theme.palette.secondary.main}}}>
             <GitHubIcon fontSize="large" />
         </IconButton>
     )
