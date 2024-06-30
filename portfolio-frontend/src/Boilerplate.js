@@ -24,28 +24,28 @@ function BoilerPlate(props){
     },[props.parentTab])
 
     return(
-        <Box sx={{minWidth:"100vw", minHeight:"100vh"}} >
-                <AppBar position="sticky" sx={{ background: 'transparent', boxShadow: 'none'}}>
-                    <Toolbar >
-                        <Grid item container xs={12} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
-                            <Grid item>
-                                <Tabs value={currTab} onChange={updateCurrTab} 
-                                    aria-label="navigation tabs"
-                                    indicatorColor="secondary">
-                                    <HoverTab value="home" label="Home" />
-                                    <HoverTab value="projects" label="Recent Projects" />
-                                    <HoverTab value="about" label="About" />
-                                    <HoverTab value="contact" label="Contact"/>
-                                    <Divider orientation="vertical" flexItem/>
-                                    <GitHubButton/>
-                                    <LinkedInButton/>
-                                </Tabs>
-                            </Grid>
-                        </Grid>
-                    </Toolbar>
-                </AppBar>
-           {props.children}
-        </Box>
+        <>
+        <AppBar position="sticky" sx={{ background: 'transparent', boxShadow: 'none'}}>
+            <Toolbar >
+                <Grid item container xs={12} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
+                    <Grid item>
+                        <Tabs value={currTab} onChange={updateCurrTab} 
+                            aria-label="navigation tabs"
+                            indicatorColor="secondary">
+                            <HoverTab value="home" label="Home" />
+                            <HoverTab value="projects" label="Recent Projects" />
+                            <HoverTab value="about" label="About" />
+                            <HoverTab value="contact" label="Contact"/>
+                            <Divider orientation="vertical" flexItem/>
+                            <GitHubButton/>
+                            <LinkedInButton/>
+                        </Tabs>
+                    </Grid>
+                </Grid>
+            </Toolbar>
+        </AppBar>
+        {props.children}
+    </>
     )
 }
 

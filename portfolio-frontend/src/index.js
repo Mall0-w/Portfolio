@@ -31,6 +31,20 @@ export const theme = createTheme({
       main: yellow[800],
     },
   },
+  typography:{
+    fontFamily: "VT323, Roboto, Arial, sans-serif"
+  },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'VT323, Roboto, Arial, sans-serif',
+          fontSize: '25px',
+          textTransform: 'none', // Optional: Disable uppercase transformation
+        },
+      }
+    }
+  }
 });
 
 
