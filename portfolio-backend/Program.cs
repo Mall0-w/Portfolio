@@ -2,9 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 using Portfolio.db;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
 // Add services to the container.
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -17,7 +20,19 @@ builder.Services.AddDbContext<PortfolioDb>(options => {
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+var  MyAllowSpecificOrigins = "PortfolioCors";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins($"{Env.GetString("FRONTEND")}");
+                      });
+});
+
 var app = builder.Build();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

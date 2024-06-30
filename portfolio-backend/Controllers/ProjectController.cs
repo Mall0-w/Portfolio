@@ -1,5 +1,6 @@
 using Projects.Models;
 using Projects.Services;
+using Json.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.db;
@@ -28,7 +29,7 @@ public class ProjectController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDto?>> GetById(long id) {
         var project = await service.Get(id);
-        return project is null ? NotFound() : project;
+        return project is null ? NotFound(new JsonObj{Status = 404, Message = "given project does not exsit"}) : project;
     }
 
 
