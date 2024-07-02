@@ -9,6 +9,7 @@ function MaxTypography(props){
             overflow: 'hidden',
             WebkitBoxOrient: 'vertical',
             WebkitLineClamp: props.maxLines,
+            wordWrap: "break-word"
         }}>
             {props.children}
         </Typography>
