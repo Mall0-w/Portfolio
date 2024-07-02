@@ -100,6 +100,8 @@ public class ProjectService{
                 
                 //handle technologies if given an id array
 
+                db.Entry(existingProject).CurrentValues.SetValues(project);
+
                 if(ids != null){
                     //clear its list of technologies
                     existingProject.Technologies.Clear();
@@ -117,6 +119,7 @@ public class ProjectService{
                     }
                 }
 
+                db.Entry(existingProject).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 await transaction.CommitAsync();
                 return;
