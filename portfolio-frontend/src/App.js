@@ -7,7 +7,7 @@ import Projects from "./Pages/Projects.js";
 import About from "./Pages/About.js";
 
 function App(props) {
-  const pages = ['home', 'projects', 'about', "contact"];
+  const pages = ['home', 'projects', 'about'];
 
   const [currTab, setCurrTab] = useState('home')
 
@@ -33,7 +33,7 @@ function App(props) {
           setCurrTab(selected);
         }
       },
-      { threshold: 0.6 } // Adjust threshold as needed
+      { threshold: 0.8 } // Adjust threshold as needed
     );
 
     Object.keys(sectionRefs.current).forEach((k) => {
@@ -60,9 +60,8 @@ function App(props) {
     return (
       <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab}>
         <Home ref={sectionRefs.current['home']}/>
-        <Projects ref={sectionRefs.current['projects']}/>
         <About ref={sectionRefs.current['about']}/>
-        <Contact ref={sectionRefs.current['contact']}/>
+        <Projects ref={sectionRefs.current['projects']}/>
       </BoilerPlate>
     );
 }

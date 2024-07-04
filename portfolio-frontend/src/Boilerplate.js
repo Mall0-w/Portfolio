@@ -24,7 +24,7 @@ function BoilerPlate(props){
     },[props.parentTab])
 
     return(
-        <Box sx={{background: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(16,0,65,1) 100%)", maxWidth:"100%", width:'100%'}}>
+        <Box sx={{background: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(5,3,8,1) 100%)", maxWidth:"100vw", width:'100%', height:'100%', display:'flex', flexDirection:'column'}}>
         <AppBar position="sticky" sx={{ background: 'transparent', boxShadow: 'none'}}>
             <Toolbar >
                 <Grid item container xs={12} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
@@ -34,8 +34,8 @@ function BoilerPlate(props){
                             indicatorColor="primary"
                             textColor="secondary">
                             <HoverTab value="home" label="Home" />
-                            <HoverTab value="projects" label="Recent Projects" />
                             <HoverTab value="about" label="About" />
+                            <HoverTab value="projects" label="Recent Projects" />
                             <HoverTab value="contact" label="Contact"/>
                             <Divider orientation="vertical" flexItem/>
                             <GitHubButton/>

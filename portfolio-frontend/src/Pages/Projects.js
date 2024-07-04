@@ -31,7 +31,7 @@ const Projects = forwardRef((props, ref) => {
     }, [])
 
     return (
-        <Box id="projects" height="100vh" width="100%" ref={ref}>
+        <Box id="projects" minHeight="100vh" width="100%"  display="flex" ref={ref}>
             <Box height="100%" sx={{ display: 'flex', background: "#181830", borderRadius: 2, border: "2px #5f41bf solid", 
                 margin: '5%', overflowX: 'auto', overflowY: 'auto', boxSizing:'content-box' }}>
                 <Grid container spacing={2} sx={{height: '100%', flexWrap: 'wrap', flexDirection:'row', padding:"1%"}}>
