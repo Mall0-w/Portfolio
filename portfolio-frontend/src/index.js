@@ -48,6 +48,20 @@ export const theme = createTheme({
           color:green[900]
         },
       }
+    },
+    MuiDivider:{
+      styleOverrides: {
+        root: {
+          backgroundColor:green[900]
+        }
+      }
+    },
+    MuiChip:{
+      styleOverrides:{
+        root:{
+          backgroundColor:green[900]
+        }
+      }
     }
   }
 });

@@ -14,7 +14,7 @@ const Home = forwardRef((props, ref) => {
 
     return(
         
-        <Box id="home" height="100vh" width="100%" ref={ref}>
+        <Box id="home" minHeight="100vh" width="100%" display="flex" ref={ref}>
             <TerminalTypography>
                 <Typewriter
                     options={{

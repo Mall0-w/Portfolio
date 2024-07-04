@@ -4,6 +4,7 @@ using Json.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.db;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Projects.Controllers;
 
@@ -20,8 +21,11 @@ public class ProjectController : ControllerBase
 
     // GET all action
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
-        return await service.GetAll();
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll([FromQuery(Name ="page")] int page=0, [FromQuery(Name ="limit")] int limit=10){
+        if(limit == -1)
+            return await service.GetAll();
+        else
+            return await service.GetPagination(page, limit);
     }
         
 

@@ -14,10 +14,35 @@ public class ProjectService{
         this._logger = logger;
     }
 
-    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetPagination(int page=0, int limit=10){
         //have to select or else technologies will infinetly recurse with projects because many to many
          var projects = await db.Projects
                            .Include(p => p.Technologies)
+                           .Take((page+1)*limit)
+                           .OrderByDescending(p => p.Id)
+                           .ToListAsync();
+
+        var projectDtos = projects.Select(project => new ProjectDto
+        {
+            Id = project.Id,
+            Name = project.Name,
+            Desc = project.Desc,
+            FinishedOn = project.FinishedOn,
+            Link = project.Link,
+            Technologies = project.Technologies.Select(t => new TechnologyDto
+            {
+                Id = t.Id,
+                Name = t.Name
+            }).ToList()
+        }).ToList();
+
+        return projectDtos;
+    }
+
+    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
+        var projects = await db.Projects
+                           .Include(p => p.Technologies)
+                           .OrderByDescending(p => p.Id)
                            .ToListAsync();
 
         var projectDtos = projects.Select(project => new ProjectDto
