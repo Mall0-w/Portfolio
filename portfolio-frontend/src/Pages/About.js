@@ -17,9 +17,10 @@ const schpeel = "Hello I'm Kyle <br/> I graduated University of Toronto in June 
 
 
 const About = forwardRef((props, ref) => {
+    
     return (
         <Grid container id="about" ref={ref} spacing={2}
-        sx={{minHeighteight:"100vh", width:"100%", display:"flex", marginBottom:'5%', flexDirection:'row-reverse'}}>
+        sx={{width:"100%", display:"flex", marginBottom:'5%', flexDirection:'row-reverse'}}>
             <Grid item xs={12} sm={12} md={12} lg={3}>
                 <img style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}} src={require('../assets/images/profile-cropped.png')}/>
             </Grid>
