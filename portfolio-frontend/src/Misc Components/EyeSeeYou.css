@@ -1,0 +1,14 @@
+.eye {
+    width: 100px; /* Adjust dimensions as needed */
+    height: 100px;
+}
+
+.eye-outline {
+    fill: white;
+    stroke: black;
+    stroke-width: 2;
+}
+
+.eyeball {
+    fill: black;
+}

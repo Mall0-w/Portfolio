@@ -11,6 +11,7 @@ import Home from './Pages/Home';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { green, purple, yellow } from '@mui/material/colors';
 import NotFound from './Pages/NotFound';
+import { Colors } from './Constants/Colours';
 
 
 const router = createBrowserRouter([
@@ -26,17 +27,17 @@ const router = createBrowserRouter([
 export const theme = createTheme({
   palette: {
     primary: {
-      main: green[900],
+      main: Colors.main.primary,
       contrastText: "white",
     },
     secondary: {
-      main: yellow[800],
+      main: Colors.main.secondary,
       
     },
   },
   typography:{
     fontFamily: "VT323, Roboto, Arial, sans-serif",
-    color:green[900]
+    color:Colors.main.primary
   },
   components: {
     MuiTab: {
@@ -45,21 +46,21 @@ export const theme = createTheme({
           fontFamily: 'VT323, Roboto, Arial, sans-serif',
           fontSize: '25px',
           textTransform: 'none', // Optional: Disable uppercase transformation
-          color:green[900]
+          color:Colors.main.primary
         },
       }
     },
     MuiDivider:{
       styleOverrides: {
         root: {
-          backgroundColor:green[900]
+          backgroundColor:Colors.main.primary
         }
       }
     },
     MuiChip:{
       styleOverrides:{
         root:{
-          backgroundColor:green[900]
+          backgroundColor:Colors.main.primary
         }
       }
     }
