@@ -17,7 +17,8 @@ const Home = forwardRef((props, ref) => {
   };
 
   return (
-    <Box id="home" minHeight="100vh" width="100%" display="flex" marginBottom="5%" ref={ref}>
+    <Box id="home" ref={ref} onClick={()=>handleVideoEnd()}
+    sx={{ minHeight:"100vh", width:"100%", display:"flex", overflowX:"hidden"}}>
       <AnimatePresence>
         {showVideo ? (
           <motion.div
@@ -27,6 +28,7 @@ const Home = forwardRef((props, ref) => {
             exit="exit"
             variants={variants}
             transition={{ duration: 0.5 }}
+            style={{height: '100%', width: '100%', justifyContent:'center', alignItems:'center'}}
           >
             <Box sx={{ height: '100%', width: '100%', overflow: 'hidden' }}>
               <video
