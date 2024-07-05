@@ -63,7 +63,7 @@ export const theme = createTheme({
           backgroundColor:Colors.main.primary
         }
       }
-    }
+    },
   }
 });
 

@@ -2,6 +2,7 @@ import {AppBar, Box, Button, Divider, Grid, IconButton, Paper, Tab, Tabs, Toolba
 import GitHubButton from "../Buttons/GitHubButton.js";
 import LinkedInButton from "../Buttons/LinkedInButton.js";
 import EyeSeeYou from "./EyeSeeYou.js";
+import { Colors } from "../Constants/Colours.js";
 
 export default function NavBar({value, onChange}){
     return(
@@ -19,7 +20,13 @@ export default function NavBar({value, onChange}){
                         <HoverTab value="home" label="Home" />
                         <HoverTab value="about" label="About" />
                         <HoverTab value="projects" label="Recent Projects" />
-                        <HoverTab value="contact" label="Contact"/>
+                        <Button variant="outlined" 
+                        sx={{transition: 'all 0.2s',
+                            '&:hover': {
+                                borderColor:Colors.main.secondary, color:Colors.main.secondary
+                            }}}>
+                            <Typography fontSize={22}>Contact</Typography>
+                        </Button>
                         <Divider orientation="vertical" flexItem/>
                         <GitHubButton/>
                         <LinkedInButton/>
@@ -33,5 +40,9 @@ export default function NavBar({value, onChange}){
 
 function HoverTab(props){
     const theme = useTheme()
-    return <Tab {...props} sx={{"&:hover":{color:theme.palette.secondary.main}}}/>
+    return <Tab {...props} sx={{
+        transition: 'all 0.2s',
+        "&:hover":{
+            color:theme.palette.secondary.main
+        }}}/>
 }
