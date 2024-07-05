@@ -1,10 +1,20 @@
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { IconButton, useTheme } from "@mui/material"
-function LinkedInButton(props){
+function LinkedInButton({transform = true}){
     const theme = useTheme()
+
+    const buttonStyle = {
+        color:theme.palette.primary.main, 
+        transition: 'all 0.2s',
+        "&:hover":{
+            color:theme.palette.secondary.main,
+            transform: transform ? 'translateY(-5px)' : undefined
+        },
+    }
+
     return(
         <IconButton onClick={() => window.location.href = process.env.REACT_APP_LINKEDIN} size="large" 
-        sx={{color:theme.palette.primary.main ,"&:hover":{color:theme.palette.secondary.main}}}>
+        sx={buttonStyle}>
             <LinkedInIcon fontSize="large"/>
         </IconButton>
     )

@@ -27,7 +27,7 @@ function BoilerPlate(props){
     return(
         <Box sx={{background: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(5,3,8,1) 100%)", maxWidth:"100vw", width:'100%', height:'100%', display:'flex', flexDirection:'column'}}>
         <NavBar onChange={updateCurrTab} value={currTab}/>
-        <Box sx={{padding:"1.5%"}}>
+        <Box>
             {props.children}
         </Box>
         

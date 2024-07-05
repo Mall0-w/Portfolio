@@ -60,8 +60,10 @@ function App(props) {
     return (
       <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab}>
         <Home ref={sectionRefs.current['home']}/>
-        <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
-        <Projects ref={sectionRefs.current['projects']}/>
+        <Box sx={{padding:'1.5%'}}>
+          <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
+          <Projects ref={sectionRefs.current['projects']}/>
+        </Box>
       </BoilerPlate>
     );
 }
