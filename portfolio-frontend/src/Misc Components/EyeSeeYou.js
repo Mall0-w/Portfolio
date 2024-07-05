@@ -1,74 +1,92 @@
-import { Box } from "@mui/material"
-import './EyeSeeYou.css';
+// src/Eye.js
+import React, { useEffect, useRef, useState } from 'react'
+import './EyeSeeYou.css'
+import {Colors} from "../Constants/Colours"
+import {Box} from '@mui/material'
 
+export default function EyeSeeYou() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const eyeRef = useRef(null);
+  const pupilRef = useRef(null);
 
-export default function EyeSeeYou(){
+  const size = 10; // Grid size (10x10 for simplicity)
+  const eyePattern = [
+    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+    [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+  ];
 
-    document.addEventListener('mousemove', function(e) {
-        const svg = document.querySelector('.eye');
-        const eyeball = document.querySelector('.eyeball');
-        
-        // SVG dimensions and center
-        const svgRect = svg.getBoundingClientRect();
-        const svgCenterX = svgRect.left + svgRect.width / 2;
-        const svgCenterY = svgRect.top + svgRect.height / 2;
-        
-        // Mouse position
-        const mouseX = e.pageX;
-        const mouseY = e.pageY;
-        
-        // Calculate angle between SVG center and mouse position
-        const deltaX = mouseX - svgCenterX;
-        const deltaY = mouseY - svgCenterY;
-        const angle = Math.atan2(deltaY, deltaX);
-        
-        // Maximum distance the eyeball can move from the center
-        const maxDistance = Math.min(svgRect.width, svgRect.height) / 3;
-        
-        // Eyeball position relative to SVG center
-        const eyeballX = Math.cos(angle) * maxDistance;
-        const eyeballY = Math.sin(angle) * maxDistance;
-        
-        // Update eyeball position
-        eyeball.setAttribute('cx', svgCenterX + eyeballX);
-        eyeball.setAttribute('cy', svgCenterY + eyeballY);
-    });
-    
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      const { clientX, clientY } = event;
+      setMousePosition({ x: clientX, y: clientY });
+    };
 
-    return(
-        <svg class="eye" viewBox="0 0 100 100">
-        <circle class="eye-outline" cx="50" cy="50" r="40" fill="white" stroke="black" stroke-width="2"/>
-        <circle class="eyeball" cx="50" cy="50" r="10" fill="black"/>
-    </svg>
+    window.addEventListener('mousemove', handleMouseMove);
 
-    )
-}
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (eyeRef.current && pupilRef.current) {
+      const eyeRect = eyeRef.current.getBoundingClientRect();
+      const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+      const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+
+      const deltaX = mousePosition.x - eyeCenterX;
+      const deltaY = mousePosition.y - eyeCenterY;
+
+      const angle = Math.atan2(deltaY, deltaX);
+      const radius = Math.min(eyeRect.width, eyeRect.height) / 4; // Adjust this to control the pupil movement radius
+      
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      pupilRef.current.style.transform = `translate(${x}px, ${y}px)`;
+    }
+  }, [mousePosition]);
+
+  return (
+      <div className="eye-grid" ref={eyeRef}>
+        {eyePattern.map((row, rowIndex) =>
+          row.map((cell, cellIndex) => (
+            <div
+              key={`${rowIndex}-${cellIndex}`}
+              className={`pixel ${cell ? 'filled' : ''} ${rowIndex === 4 && cellIndex === 4 ? 'pupil' : ''}`}
+              ref={rowIndex === 4 && cellIndex === 4 ? pupilRef : null}
+            ></div>
+          ))
+        )}
+      </div>
+
+  );
+};
 
 const styles = {
-    eyeContainer : {
-        display: "flex",
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: "100%" /* Adjust as needed */
-    },
-
-    eye: {
-        width: "40px",
-        height: "40px",
-        backgroundColor: "white",
-        border: "2px solid black",
-        borderRadius: "50%",
-        position: "relative",
-    },
-
-    pupil:{
-    width: "10px",
-    height: "10px",
-    backgroundColor: "black",
-    borderRadius: "50%",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    }
+  eyeGrid:{
+    display: "grid",
+    gridTemplateColumns: "repeat(10, 5px)", /* 10 columns, x px each */
+    gridTemplateRows: "repeat(10, 5px)",    /* 10 rows, x px each */
+    gap: "2px",
+  },
+  
+  pixel:{
+    width: "5px",
+    height: "5px",
+    backgroundColor: Colors.main.primary,
+  },
+  
+  pixelFilled : {
+    backgroundColor: "#000",
+  }
+  
 }

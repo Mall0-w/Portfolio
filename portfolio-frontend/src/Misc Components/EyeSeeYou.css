@@ -1,14 +1,18 @@
-.eye {
-    width: 100px; /* Adjust dimensions as needed */
-    height: 100px;
-}
-
-.eye-outline {
-    fill: white;
-    stroke: black;
-    stroke-width: 2;
-}
-
-.eyeball {
-    fill: black;
-}
+/* src/Eye.css */
+.eye-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 5px); /* 10 columns, 20px each */
+    grid-template-rows: repeat(10, 5px);    /* 10 rows, 20px each */
+    gap: 2px;
+  }
+  
+  .pixel {
+    width: 5px;
+    height: 5px;
+    background-color: #fff;
+  }
+  
+  .pixel.filled {
+    background-color: #000;
+  }
+  

@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from "@mui/material"
+import { Box, Typography, Grid, Slide } from "@mui/material"
 import { forwardRef } from "react"
 import Typewriter from 'typewriter-effect';
 
@@ -21,8 +21,10 @@ const About = forwardRef((props, ref) => {
     return (
         <Grid container id="about" ref={ref} spacing={2}
         sx={{width:"100%", display:"flex", marginBottom:'5%', flexDirection:'row-reverse'}}>
-            <Grid item xs={12} sm={12} md={12} lg={3}>
+            <Grid item container xs={12} sm={12} md={12} lg={3} sx={{overflow:"hidden"}}>
+            <Slide direction="left" in={props.loaded} mountOnEnter unmountOnExit>
                 <img style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}} src={require('../assets/images/profile-cropped.png')}/>
+            </Slide>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={9}>
             <Typography color="primary" fontSize={25}>

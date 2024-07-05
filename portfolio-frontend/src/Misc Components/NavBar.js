@@ -9,7 +9,7 @@ export default function NavBar({value, onChange}){
         <Toolbar >
             <Grid item container xs={12}>
                 <Grid item xs={1}>
-                    <EyeSeeYou/>
+                    {/* <EyeSeeYou/> */}
                 </Grid>
                 <Grid item container xs={11} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
                     <Tabs value={value} onChange={onChange} 

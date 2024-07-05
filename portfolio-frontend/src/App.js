@@ -60,7 +60,7 @@ function App(props) {
     return (
       <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab}>
         <Home ref={sectionRefs.current['home']}/>
-        <About ref={sectionRefs.current['about']}/>
+        <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
         <Projects ref={sectionRefs.current['projects']}/>
       </BoilerPlate>
     );
