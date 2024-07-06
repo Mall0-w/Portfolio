@@ -11,6 +11,8 @@ function App(props) {
 
   const [currTab, setCurrTab] = useState('home')
 
+  const navBarRef = useRef(null)
+
   //using some whacky functionaly programming to get an object of key/ref pairs
   const sectionRefs = useRef(
     pages.reduce((acc, section) => {
@@ -58,8 +60,8 @@ function App(props) {
   }
 
     return (
-      <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab}>
-        <Home ref={sectionRefs.current['home']}/>
+      <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab} navBarRef={navBarRef}>
+        <Home ref={sectionRefs.current['home']} navBarRef={navBarRef}/>
         <Box sx={{padding:'1.5%'}}>
           <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
           <Projects ref={sectionRefs.current['projects']}/>

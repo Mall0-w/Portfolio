@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from 'typewriter-effect';
 
-const Home = forwardRef((props, ref) => {
+const Home = forwardRef(({navBarRef}, ref) => {
   const [showVideo, setShowVideo] = useState(true);
 
   const handleVideoEnd = () => {
@@ -16,9 +16,29 @@ const Home = forwardRef((props, ref) => {
     exit: { opacity: 0, x: '-100%' },
   };
 
+  //appbar making 100vh go off screen so have to do it the old fashioned way
+  function getWindowHeight(){
+    
+    if(!navBarRef || !navBarRef.current)
+      return
+    
+    let navbarHeight = navBarRef.current.offsetHeight
+    let windowHeight = window.innerHeight
+
+    console.log('nH', navbarHeight, 'wh', windowHeight, 'total', windowHeight - navbarHeight)
+    return windowHeight - navbarHeight
+    //get height of appbar
+    //get height of window
+    //window - appbar
+  }
+
+  useEffect(()=>{
+    getWindowHeight()
+  },[navBarRef])
+
   return (
     <Box id="home" ref={ref} onClick={()=>handleVideoEnd()}
-    sx={{ minHeight:"100vh", width:"100%", display:"flex", overflowX:"hidden"}}>
+    sx={{ minHeight:`${getWindowHeight()}px`, width:"100%", display:"flex", overflowX:"hidden"}}>
       <AnimatePresence>
         {showVideo ? (
           <motion.div

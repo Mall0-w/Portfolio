@@ -33,7 +33,7 @@ const About = forwardRef((props, ref) => {
                         strings: schpeel,
                         autoStart: true,
                         cursor:"_",
-                        delay:17.5,
+                        delay:10,
                     }}
                 />
             </Typography>
