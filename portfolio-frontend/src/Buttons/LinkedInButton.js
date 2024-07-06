@@ -13,7 +13,7 @@ function LinkedInButton({transform = true}){
     }
 
     return(
-        <IconButton onClick={() => window.location.href = process.env.REACT_APP_LINKEDIN} size="large" 
+        <IconButton onClick={() => window.open(process.env.REACT_APP_LINKEDIN)} size="large" 
         sx={buttonStyle}>
             <LinkedInIcon fontSize="large"/>
         </IconButton>

@@ -1,6 +1,6 @@
-import GitHubIcon from "@mui/icons-material/GitHub"
+import EmailIcon from '@mui/icons-material/Email';
 import { IconButton, useTheme } from "@mui/material"
-function GitHubButton({transform=true}){
+function EmailButton({transform=true}){
 
     const theme = useTheme()
 
@@ -12,12 +12,13 @@ function GitHubButton({transform=true}){
             transform: transform ? 'translateY(-5px)' : undefined
         },
     }
+
     return(
-        <IconButton onClick={() => window.open(process.env.REACT_APP_GITHUB)} size="large" 
+        <IconButton onClick={() => window.location.href =`mailto:${process.env.REACT_APP_EMAIL}`} size="large" 
         sx={buttonStyle}>
-            <GitHubIcon fontSize="large" />
+            <EmailIcon fontSize="large" />
         </IconButton>
     )
 }
 
-export default GitHubButton
+export default EmailButton

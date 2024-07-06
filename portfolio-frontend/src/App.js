@@ -1,5 +1,5 @@
 import { Box, FormControlLabel, Switch, Paper, Slide, Typography } from "@mui/material";
-import BoilerPlate from "./Boilerplate.js";
+import Navigation from "./Pages/Navigation.js";
 import { createRef, useEffect, useRef, useState } from "react";
 import Home from "./Pages/Home.js";
 import Contact from "./Pages/Contact.js";
@@ -60,14 +60,14 @@ function App(props) {
   }
 
     return (
-      <BoilerPlate updateTab={(v) => navToRef(v)} parentTab={currTab} navBarRef={navBarRef}>
+      <Navigation updateTab={(v) => navToRef(v)} parentTab={currTab} navBarRef={navBarRef}>
         <Home ref={sectionRefs.current['home']} navBarRef={navBarRef}/>
         <Box sx={{padding:'1.5%'}}>
           <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
           <Projects ref={sectionRefs.current['projects']}/>
           <Contact ref={sectionRefs.current['contact']} loaded={currTab === 'contact'}/>
         </Box>
-      </BoilerPlate>
+      </Navigation>
     );
 }
 
