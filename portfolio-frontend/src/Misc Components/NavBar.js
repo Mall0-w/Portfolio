@@ -15,18 +15,16 @@ export default function NavBar({value, onChange}){
                 <Grid item container xs={11} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
                     <Tabs value={value} onChange={onChange} 
                         aria-label="navigation tabs"
-                        indicatorColor="primary"
+                        TabIndicatorProps={{
+                            style: {
+                                backgroundColor: Colors.main.dark // Change the indicator color to white
+                            }
+                        }}
                         textColor="secondary">
                         <HoverTab value="home" label="Home" />
                         <HoverTab value="about" label="About" />
                         <HoverTab value="projects" label="Recent Projects" />
-                        <Button variant="outlined" 
-                        sx={{transition: 'all 0.2s',
-                            '&:hover': {
-                                borderColor:Colors.main.secondary, color:Colors.main.secondary
-                            }}}>
-                            <Typography fontSize={22}>Contact</Typography>
-                        </Button>
+                        <HoverTab value="contact" label="Contact"/>
                         <Divider orientation="vertical" flexItem/>
                         <GitHubButton/>
                         <LinkedInButton/>

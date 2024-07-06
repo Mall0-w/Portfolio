@@ -7,7 +7,7 @@ import Projects from "./Pages/Projects.js";
 import About from "./Pages/About.js";
 
 function App(props) {
-  const pages = ['home', 'projects', 'about'];
+  const pages = ['home', 'projects', 'about', 'contact'];
 
   const [currTab, setCurrTab] = useState('home')
 
@@ -63,6 +63,7 @@ function App(props) {
         <Box sx={{padding:'1.5%'}}>
           <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
           <Projects ref={sectionRefs.current['projects']}/>
+          <Contact ref={sectionRefs.current['contact']}/>
         </Box>
       </BoilerPlate>
     );
