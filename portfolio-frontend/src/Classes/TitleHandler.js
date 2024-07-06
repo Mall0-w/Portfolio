@@ -18,14 +18,13 @@ export class LoadingTitleHandler{
         this.count = 0
         this.loading = true
         this.currString = loadingString
-        console.log('play start')
 
         setTimeout(() => this.continueLoading(), 400)
     }
 
     continueLoading(){
-        this.count = (this.count + 1) % (LoadingTitleHandler.MAX_LOADING_DOTS + 1)
         if(this.loading){
+            this.count = (this.count + 1) % (LoadingTitleHandler.MAX_LOADING_DOTS + 1)
             this.publishTitle(this.getLoadingString())
             setTimeout(() => this.continueLoading(), 400)
         }
