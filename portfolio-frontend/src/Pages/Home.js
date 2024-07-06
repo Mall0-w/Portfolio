@@ -2,12 +2,21 @@ import { Box, Typography } from "@mui/material";
 import { forwardRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from 'typewriter-effect';
+import { LoadingTitleHandler } from "../Classes/TitleHandler";
 
 const Home = forwardRef(({navBarRef}, ref) => {
   const [showVideo, setShowVideo] = useState(true);
 
+  const titleHandler = new LoadingTitleHandler();
+
+  const handleVideoStart = () => {
+    setShowVideo(true)
+    titleHandler.startLoading()
+  }
+
   const handleVideoEnd = () => {
     setShowVideo(false);
+    titleHandler.stopLoading()
   };
 
   const variants = {
@@ -55,6 +64,7 @@ const Home = forwardRef(({navBarRef}, ref) => {
                 autoPlay
                 muted
                 playsInline
+                onPlay={handleVideoStart}
                 style={{ objectFit: 'fill', width: '100%', height: '100%' }}
                 onEnded={handleVideoEnd}
               >
