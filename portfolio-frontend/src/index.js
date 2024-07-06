@@ -64,6 +64,13 @@ export const theme = createTheme({
         }
       }
     },
+  //   MuiInputLabel: {
+  //     styleOverrides: {
+  //         root: {
+  //             fontSize: '20px', // Adjust this value to the desired size
+  //         },
+  //     },
+  // }
   }
 });
 

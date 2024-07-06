@@ -65,7 +65,7 @@ function App(props) {
         <Box sx={{padding:'1.5%'}}>
           <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
           <Projects ref={sectionRefs.current['projects']}/>
-          <Contact ref={sectionRefs.current['contact']}/>
+          <Contact ref={sectionRefs.current['contact']} loaded={currTab === 'contact'}/>
         </Box>
       </BoilerPlate>
     );
