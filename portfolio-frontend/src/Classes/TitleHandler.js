@@ -30,7 +30,7 @@ export class LoadingTitleHandler{
         }
     }
 
-    stopLoading(finishedString = "Software Engineer"){
+    stopLoading(finishedString = "Kode With Kyle"){
         this.loading = false;
         this.currString = finishedString;
         this.publishTitle();

@@ -26,7 +26,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy  =>
                       {
-                          policy.WithOrigins($"{Env.GetString("FRONTEND")}");
+                          policy.WithOrigins($"{Env.GetString("FRONTEND")}")
+                          .AllowAnyMethod()
+                          .WithHeaders(["Content-Type", "Authorization", "X-Requested-With"]);
                       });
 });
 

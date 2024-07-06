@@ -3,6 +3,7 @@ using System.Text.Json;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
 using Emails.Models;
+using Global.Helpers;
 namespace AWS.Services;
 
 public class SESService{
@@ -22,6 +23,7 @@ public class SESService{
     }
 
     public async Task<SendEmailResponse[]> HandleContactExchange(ContactEmailReq req){
+
         var personal = this.ForwardEmailToPersonal($"{req.Name} saw your website and wants to reach out!", req.Message);
         var recipient = this.SendTextEmail(req.ToAddress, "Thank you for reaching out", 
         @"Thank you for seeing my website and reaching out!
@@ -40,7 +42,9 @@ public class SESService{
     }
 
     private SendEmailRequest createTextEmail(string toAddress, string subject, string body){
-        logger.LogInformation("email: " + toAddress);
+        if(!InputValidator.IsValidEmail(toAddress))
+            throw new ArgumentException("toAddress must be a valid email");
+
         var dest =new Destination(new List<string>() { toAddress.ToLower() });
         var emailSubject = new Content(subject);
         var emailBody = new Body(new Content(body));
@@ -50,7 +54,6 @@ public class SESService{
         logger.LogInformation(string.Join(",",dest.ToAddresses));
         logger.LogInformation(mailer);
         return new SendEmailRequest(mailer, dest, message);
-
     }
 
 

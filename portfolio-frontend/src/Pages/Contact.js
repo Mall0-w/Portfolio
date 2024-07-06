@@ -4,11 +4,13 @@ import { motion, AnimatePresence, useTransform } from "framer-motion";
 import { Colors } from "../Constants/Colours";
 import Typewriter from 'typewriter-effect';
 import {InputValidator} from '../Classes/InputValidator'
+import { EmailHandler } from "../Classes/EmailHandler";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const Contact = forwardRef(({loaded}, ref) => {
-    const [email, setEmail] = useState("")
-    const [name, setName] = useState("")
-    const [message, setMessage] = useState("")
+    const [email, setEmail] = useState(null)
+    const [name, setName] = useState(null)
+    const [message, setMessage] = useState(null)
     
     const [responseObj, setResponseObj] = useState({})
 
@@ -23,15 +25,31 @@ const Contact = forwardRef(({loaded}, ref) => {
         return [0,15*direction,10*-direction,5*direction,2*-direction,0]
     }
 
-    function submitContact(){
+    async function submitContact(){
         console.log(name, email, message)
         try{
             InputValidator.validateContactForm(name, email, message)
-            setResponseObj({status:'ok', message:"email sent!", statusCode:200})
+            // setResponseObj({status:'ok', message:"email sent!", statusCode:200})
+            let resp = await EmailHandler.sendContactEmails(name, email, message)
+            let json = await resp.json()
+            if(resp.ok){
+                setResponseObj({status:"ok", message:"Your Email Has Been Sent!", statusCode:resp.status})
+            }else{
+                setResponseObj({status:"error", message:json.message, statusCode:resp.status})
+            }
+
         }catch(e){
-            console.log(e.message)
+            console.error(e)
             setResponseObj({status:'error', message:e.message})
         }
+    }
+
+    const isValidEmail = () => {
+        return email === null || InputValidator.isValidEmail(email)
+    }
+
+    const isValidString = (str) => {
+        return str === null || str.length > 0
     }
 
     useEffect(()=>{
@@ -74,16 +92,22 @@ const Contact = forwardRef(({loaded}, ref) => {
                 <Grid item lg={5} md={12} sm={12} xs={12}>
                     <Grid container sx={{width:'100%', height:'100%', display:'flex'}} spacing={4}>
                         <Grid item xs={12}>
-                            <CustomTextField label="Name" fullWidth color="primary" focused
-                            value={name} onChange={(e) => setName(e.target.value)}/>
+                            <Typography fontSize={22} color={isValidString(name) ? "primary" : "error"}>Name</Typography>
+                            <CustomTextField fullWidth color="primary" focused required placeholder="Name"
+                            value={name} onChange={(e) => setName(e.target.value)} error={!isValidString(name)}/>
+                            {!isValidString(name) ? <TextFieldError>Name Must Not Be Empty</TextFieldError>:<></>}
                         </Grid>
                         <Grid item xs={12}>
-                            <CustomTextField label="Email" fullWidth color="primary" focused
-                            value={email} onChange={(e) => setEmail(e.target.value)}/>
+                            <Typography fontSize={22} color={isValidEmail(email) ? "primary" : "error"}>Email</Typography>
+                            <CustomTextField fullWidth color="primary" focused required value={email} placeholder="email"
+                            onChange={(e) => setEmail(e.target.value)} error={!isValidEmail(email)}/>
+                            {!isValidEmail(email) ? <TextFieldError>Email must be valid</TextFieldError>:<></>}
                         </Grid>
                         <Grid item xs={12}>
-                            <CustomTextField label="Message" fullWidth rows={4} multiline
-                            value={message} onChange={(e) => setMessage(e.target.value)}/>
+                            <Typography fontSize={22} color={isValidString(message) ? "primary" : "error"}>Message</Typography>
+                            <CustomTextField fullWidth rows={4} multiline required placeholder="Message" focused
+                             onChange={(e) => setMessage(e.target.value)} error={!isValidString(message)}/>
+                            {!isValidString(message) ? <TextFieldError>Message Must Not Be Empty</TextFieldError>:<></>}
                         </Grid>
                         <Grid item container xs={12} sx={{justifyContent:'center', alignItems:'center'}}>
                             <AnimatePresence>
@@ -113,9 +137,31 @@ const Contact = forwardRef(({loaded}, ref) => {
 
 const CustomTextField = (props) => {
     return(
-        <TextField {...props} sx={{color:Colors.main.primary}} focused
-        InputProps={{ style: { fontSize: 20, color:Colors.main.contrastText } }}
-        InputLabelProps={{ style: { fontSize: 24 } }}>{props.children}</TextField>
+        <TextField {...props} InputProps={{ style: { fontSize: 20, color:Colors.main.contrastText } }}>
+            {props.children}
+        </TextField>
+    )
+}
+
+const TextFieldError = (props) => {
+    return (
+    <AnimatePresence>
+    <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        style={{width:'100%', height:'100%', overflowX:'hidden'}}
+    >          
+    <Grid container sx={{display:'flex', flexDirection:'row', alignItems:'center'}} spacing={1}>
+        <Grid item>
+            <ErrorOutlineIcon color="error"/>
+        </Grid>
+        <Grid item>
+            <Typography fontSize={20} color="error">{props.children}</Typography>
+        </Grid>
+    </Grid>
+    </motion.div>
+    </AnimatePresence>
     )
 }
 
