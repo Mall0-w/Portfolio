@@ -31,26 +31,20 @@ const Contact = forwardRef(({loaded}, ref) => {
         sx={{minHeight:"40vh", width:"100%", display:'flex', alignItems:'flex-start'}}>
             <Grid container sx={{width:'100%', height:'100%', padding:'1%', display:'flex', justifyContent:'center', alignItems:'center'}} spacing={2}>
                 <Grid item container lg={7} md={12} sm={12} xs={12} 
-                sx={{width:'100%', height:'100%', justifyContent:'center', alignItems:'center', display:'flex'}}>
-                    <AnimatePresence>
-                    <motion.div
-                        style={{height:'100%'}}
-                    >
-                        <Typography variant="h2" color="secondary">
-                            Interested?
-                        </Typography>
-                            <Typography color="primary" variant="h4">
-                            <Typewriter
-                                options={{
-                                    strings: "Get in touch",
-                                    autoStart: textToggle,
-                                    cursor:"_",
-                                    delay:80,
-                                }}
-                            />
-                        </Typography>
-                    </motion.div>
-                    </AnimatePresence>
+                sx={{width:'100%', height:'100%', justifyContent:'center', alignItems:'center', display:'flex', flexDirection:'column'}}>
+                    <Typography variant="h2" color="secondary">
+                        Interested?
+                    </Typography>
+                        <Typography color="primary" variant="h4">
+                        <Typewriter
+                            options={{
+                                strings: "Get in Touch",
+                                autoStart: textToggle,
+                                cursor:"_",
+                                delay:80,
+                            }}
+                        />
+                    </Typography>
                 </Grid>
                 <Grid item lg={5} md={12} sm={12} xs={12}>
                     <Grid container sx={{width:'100%', height:'100%', display:'flex'}} spacing={4}>
