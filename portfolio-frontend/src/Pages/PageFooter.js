@@ -7,6 +7,7 @@ import EmailButton from "../Buttons/EmailButton";
 export default function PageFooter(){
     return(
         <Grid container sx={{width:'100%', height:'100%', display:'flex', padding:'1%', paddingLeft:'5%', paddingRight:'5%',
+            background: Colors.main.footerBackground,
             justifyContent:'center', alignItems:'center', borderTop:`2px solid ${Colors.main.primary}`}}>
             <Grid container sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <Box sx={{borderBottom:`2px solid ${Colors.main.contrastText}`}}>

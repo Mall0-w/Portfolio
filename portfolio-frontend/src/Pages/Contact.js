@@ -64,7 +64,7 @@ const Contact = forwardRef(({loaded}, ref) => {
             <Box sx={{paddingBottom:'10%', justifyContent:'center', alignItems:'center', width:'100%'}}>
             <ResumeDownload/>
             </Box>
-            <Grid container sx={{width:'100%', height:'100%', padding:'1%', display:'flex', justifyContent:'center', alignItems:'center'}} spacing={2}>
+            <Grid container sx={{width:'100%', height:'100%', display:'flex', justifyContent:'center', alignItems:'center'}} spacing={2}>
                 <Grid item container lg={7} md={12} sm={12} xs={12} 
                 sx={{width:'100%', height:'100%', justifyContent:'center', alignItems:'center', display:'flex', flexDirection:'column'}}>
                     <Typography variant="h2" color="secondary">
@@ -93,44 +93,43 @@ const Contact = forwardRef(({loaded}, ref) => {
                     </Typography>
                     : <></>}
                 </Grid>
-                <Grid item lg={5} md={12} sm={12} xs={12}>
-                    <Grid container sx={{width:'100%', height:'100%', display:'flex'}} spacing={4}>
-                        <Grid item xs={12}>
-                            <Typography fontSize={22} color={isValidString(name) ? "primary" : "error"}>Name</Typography>
-                            <CustomTextField fullWidth color="primary" focused required placeholder="Name"
-                            value={name} onChange={(e) => setName(e.target.value)} error={!isValidString(name)}/>
-                            {!isValidString(name) ? <TextFieldError>Name Must Not Be Empty</TextFieldError>:<></>}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography fontSize={22} color={isValidEmail(email) ? "primary" : "error"}>Email</Typography>
-                            <CustomTextField fullWidth color="primary" focused required value={email} placeholder="email"
-                            onChange={(e) => setEmail(e.target.value)} error={!isValidEmail(email)}/>
-                            {!isValidEmail(email) ? <TextFieldError>Email must be valid</TextFieldError>:<></>}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography fontSize={22} color={isValidString(message) ? "primary" : "error"}>Message</Typography>
-                            <CustomTextField fullWidth rows={4} multiline required placeholder="Message" focused
-                             onChange={(e) => setMessage(e.target.value)} error={!isValidString(message)}/>
-                            {!isValidString(message) ? <TextFieldError>Message Must Not Be Empty</TextFieldError>:<></>}
-                        </Grid>
-                        <Grid item container xs={12} sx={{justifyContent:'center', alignItems:'center'}}>
-                            <AnimatePresence>
-                                <motion.button
-                                    initial={{rotate:0}}
-                                    whileTap={{
-                                        scale:0.9,
-                                        rotate: getTwist() 
-                                    }}
-                                    whileHover={{scale:1.1}}
-                                    style={{borderColor:Colors.main.primary, borderRadius:4, width:'30%', background: 'transparent'}}
-                                    onTap={submitContact}
-                                >
-                                    <Button fullWidth sx={{background: 'transparent'}} onClick={submitContact}>
-                                        <Typography fontSize={20} color="primary">Execute</Typography>
-                                    </Button>
-                                </motion.button>
-                            </AnimatePresence>
-                        </Grid>
+                <Grid item lg={5} md={12} sm={12} xs={12} container 
+                    sx={{width:'100%', height:'100%', display:'flex', justifyContent:'center', alignItems:'center'}} spacing={4}>
+                    <Grid item xs={12}>
+                        <Typography fontSize={22} color={isValidString(name) ? "primary" : "error"}>Name</Typography>
+                        <CustomTextField fullWidth color="primary" focused required placeholder="Name"
+                        value={name} onChange={(e) => setName(e.target.value)} error={!isValidString(name)}/>
+                        {!isValidString(name) ? <TextFieldError>Name Must Not Be Empty</TextFieldError>:<></>}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography fontSize={22} color={isValidEmail(email) ? "primary" : "error"}>Email</Typography>
+                        <CustomTextField fullWidth color="primary" focused required value={email} placeholder="email"
+                        onChange={(e) => setEmail(e.target.value)} error={!isValidEmail(email)}/>
+                        {!isValidEmail(email) ? <TextFieldError>Email must be valid</TextFieldError>:<></>}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography fontSize={22} color={isValidString(message) ? "primary" : "error"}>Message</Typography>
+                        <CustomTextField fullWidth rows={4} multiline required placeholder="Message" focused
+                            onChange={(e) => setMessage(e.target.value)} error={!isValidString(message)}/>
+                        {!isValidString(message) ? <TextFieldError>Message Must Not Be Empty</TextFieldError>:<></>}
+                    </Grid>
+                    <Grid item container xs={12} sx={{justifyContent:'center', alignItems:'center'}}>
+                        <AnimatePresence>
+                            <motion.button
+                                initial={{rotate:0}}
+                                whileTap={{
+                                    scale:0.9,
+                                    rotate: getTwist() 
+                                }}
+                                whileHover={{scale:1.1}}
+                                style={{borderColor:Colors.main.primary, borderRadius:4, width:'30%', background: 'transparent'}}
+                                onTap={submitContact}
+                            >
+                                <Button fullWidth sx={{background: 'transparent'}} onClick={submitContact}>
+                                    <Typography fontSize={20} color="primary">Execute</Typography>
+                                </Button>
+                            </motion.button>
+                        </AnimatePresence>
                     </Grid>
                 </Grid>
             </Grid>

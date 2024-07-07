@@ -1,12 +1,25 @@
-import {AppBar, Box, Divider, Grid, useScrollTrigger, Tab, Tabs, Toolbar, useTheme, Slide} from "@mui/material";
+import {AppBar, Box, Divider, Grid, useScrollTrigger, Tab, Tabs, Toolbar, useTheme, Slide, Typography, 
+    SwipeableDrawer, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import GitHubButton from "../Buttons/GitHubButton.js";
 import LinkedInButton from "../Buttons/LinkedInButton.js";
 import EyeSeeYou from "./EyeSeeYou.js";
 import { Colors } from "../Constants/Colours.js";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
+import { Validator } from "../Classes/Validator.js";
+import MenuButton from "../Buttons/MenuButton.js";
+import { pages } from "../Constants/Pages.js";
+import HoverButton from "../Buttons/HoverButton.js";
 
 const NavBar = forwardRef(({value, onChange}, ref) => {
+    const [openDrawer, setOpenDrawer] = useState(false)
+
+    const handleSelect = (event, value) => {
+        setOpenDrawer(false)
+        onChange(event, value)
+    }
+
     return(
+    <>
     <HideOnScroll ref={ref}>
         <AppBar position="sticky" sx={{ background: 'transparent', boxShadow: 'none'}}>
             <Toolbar >
@@ -14,8 +27,9 @@ const NavBar = forwardRef(({value, onChange}, ref) => {
                     <Grid item xs={1}>
                         {/* <EyeSeeYou/> */}
                     </Grid>
+                    {!Validator.isBrowserMobile() ? 
                     <Grid item container xs={11} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
-                        <Tabs value={value} onChange={onChange} 
+                        <Tabs value={value} onChange={handleSelect} 
                             aria-label="navigation tabs"
                             TabIndicatorProps={{
                                 style: {
@@ -23,19 +37,37 @@ const NavBar = forwardRef(({value, onChange}, ref) => {
                                 }
                             }}
                             textColor="secondary">
-                            <HoverTab value="home" label="Home" />
-                            <HoverTab value="about" label="About" />
-                            <HoverTab value="projects" label="Recent Projects" />
-                            <HoverTab value="contact" label="Contact"/>
-                            <Divider orientation="vertical" flexItem/>
-                            <GitHubButton/>
-                            <LinkedInButton/>
+                            {pages.map((p, index) => (
+                                <HoverTab value={p.name} label={p.label} key={`tab_${p.name}`}/>
+                            ))}
                         </Tabs>
-                    </Grid>
+                    </Grid>:
+                    <Grid item container xs={11} justifyContent="flex-end" columnSpacing={1} paddingRight="5%">
+                        <MenuButton onClick={() => setOpenDrawer(true)}/>
+                    </Grid>}
+                    
                 </Grid>
             </Toolbar>
         </AppBar>
     </HideOnScroll>
+    <SwipeableDrawer open={openDrawer} onClose={() => setOpenDrawer(false)} anchor="right" 
+    sx={{minWidth:'30%',}} onOpen={() => setOpenDrawer(true)}>
+        <Box sx={{minWidth:'40%', display:'flex', height:'100%', background:Colors.main.backgroundDrawer }}>
+            <List sx={{display:'flex', flexDirection:'column'}}>
+                {pages.map((p, index) => (
+                    <ListItem >
+                        <ListItemButton sx={{'&:hover': {color:"secondary"}}} onClick={(e) => handleSelect(e, p.name)}>
+                            <HoverButton fullWidth>
+                                <Typography fontSize={20}>{p.label}</Typography>
+                            </HoverButton>
+                        </ListItemButton>
+                        {index < p.length - 1 ? <Divider horizontal/> : <></>}
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    </SwipeableDrawer>
+    </>
     )
 })
 

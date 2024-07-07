@@ -7,6 +7,7 @@ import LinkedInButton from "../Buttons/LinkedInButton.js";
 import HoverButton from "../Buttons/HoverButton.js";
 import NavBar from "../Misc Components/NavBar.js";
 import PageFooter from "./PageFooter.js";
+import { Colors } from "../Constants/Colours.js";
 
 export default function Navigation({updateTab, parentTab, navBarRef, children}){
     const [currTab, setCurrTab] = useState("home")
@@ -26,7 +27,7 @@ export default function Navigation({updateTab, parentTab, navBarRef, children}){
     },[parentTab])
 
     return(
-        <Box sx={{background: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(5,3,8,1) 100%)", maxWidth:"100vw", width:'100%', height:'100%', display:'flex', flexDirection:'column'}}>
+        <Box sx={{background: Colors.main.background, maxWidth:"100vw", width:'100%', height:'100%', display:'flex', flexDirection:'column'}}>
         <NavBar onChange={updateCurrTab} value={currTab} ref={navBarRef}/>
         <Box>
             {children}

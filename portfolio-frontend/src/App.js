@@ -5,9 +5,9 @@ import Home from "./Pages/Home.js";
 import Contact from "./Pages/Contact.js";
 import Projects from "./Pages/Projects.js";
 import About from "./Pages/About.js";
+import { pages } from "./Constants/Pages.js";
 
 function App(props) {
-  const pages = ['home', 'projects', 'about', 'contact'];
 
   const [currTab, setCurrTab] = useState('home')
 
@@ -16,7 +16,7 @@ function App(props) {
   //using some whacky functionaly programming to get an object of key/ref pairs
   const sectionRefs = useRef(
     pages.reduce((acc, section) => {
-      acc[section] = createRef();
+      acc[section.name] = createRef();
       return acc;
     }, {})
   )
