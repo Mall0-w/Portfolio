@@ -21,7 +21,7 @@ public class ProjectController : ControllerBase
 
     // GET all action
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll([FromQuery(Name ="page")] int page=0, [FromQuery(Name ="limit")] int limit=10){
+    public async Task<ActionResult<IEnumerable<Project>>> GetAll([FromQuery(Name ="page")] int page=0, [FromQuery(Name ="limit")] int limit=10){
         if(limit == -1)
             return await service.GetAll();
         else
@@ -31,7 +31,7 @@ public class ProjectController : ControllerBase
 
     // GET by Id action
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProjectDto?>> GetById(long id) {
+    public async Task<ActionResult<Project?>> GetById(long id) {
         var project = await service.Get(id);
         return project is null ? NotFound(new JsonObj{Status = 404, Message = "given project does not exsit"}) : project;
     }

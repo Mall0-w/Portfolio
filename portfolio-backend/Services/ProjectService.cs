@@ -14,7 +14,7 @@ public class ProjectService{
         this._logger = logger;
     }
 
-    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetPagination(int page=0, int limit=10){
+    public async Task<ActionResult<IEnumerable<Project>>> GetPagination(int page=0, int limit=10){
         //have to select or else technologies will infinetly recurse with projects because many to many
          var projects = await db.Projects
                            .Include(p => p.Technologies)
@@ -22,68 +22,51 @@ public class ProjectService{
                            .OrderByDescending(p => p.Id)
                            .ToListAsync();
 
-        var projectDtos = projects.Select(project => new ProjectDto
-        {
-            Id = project.Id,
-            Name = project.Name,
-            Desc = project.Desc,
-            FinishedOn = project.FinishedOn,
-            Link = project.Link,
-            Technologies = project.Technologies.Select(t => new TechnologyDto
-            {
-                Id = t.Id,
-                Name = t.Name
-            }).ToList()
-        }).ToList();
+        // var projectDtos = projects.Select(project => new ProjectDto
+        // {
+        //     Id = project.Id,
+        //     Name = project.Name,
+        //     Desc = project.Desc,
+        //     FinishedOn = project.FinishedOn,
+        //     Link = project.Link,
+        //     Technologies = project.Technologies.Select(t => new TechnologyDto
+        //     {
+        //         Id = t.Id,
+        //         Name = t.Name
+        //     }).ToList()
+        // }).ToList();
 
-        return projectDtos;
+        return projects;
     }
 
-    public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll(){
+    public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
         var projects = await db.Projects
                            .Include(p => p.Technologies)
                            .OrderByDescending(p => p.Id)
                            .ToListAsync();
 
-        var projectDtos = projects.Select(project => new ProjectDto
-        {
-            Id = project.Id,
-            Name = project.Name,
-            Desc = project.Desc,
-            FinishedOn = project.FinishedOn,
-            Link = project.Link,
-            Technologies = project.Technologies.Select(t => new TechnologyDto
-            {
-                Id = t.Id,
-                Name = t.Name
-            }).ToList()
-        }).ToList();
+        // var projectDtos = projects.Select(project => new ProjectDto
+        // {
+        //     Id = project.Id,
+        //     Name = project.Name,
+        //     Desc = project.Desc,
+        //     FinishedOn = project.FinishedOn,
+        //     Link = project.Link,
+        //     Technologies = project.Technologies.Select(t => new TechnologyDto
+        //     {
+        //         Id = t.Id,
+        //         Name = t.Name
+        //     }).ToList()
+        // }).ToList();
 
-        return projectDtos;
+        return projects;
     }
 
-    public async Task<ActionResult<ProjectDto?>> Get(long id){
+    public async Task<ActionResult<Project?>> Get(long id){
         var project = await db.Projects
                           .Include(p => p.Technologies)
                           .FirstOrDefaultAsync(p => p.Id == id);
-        if(project == null)
-            return null;
-
-        var projectDto = new ProjectDto
-        {
-            Id = project.Id,
-            Name = project.Name,
-            Desc = project.Desc,
-            FinishedOn = project.FinishedOn,
-            Link = project.Link,
-            Technologies = project.Technologies.Select(t => new TechnologyDto
-            {
-                Id = t.Id,
-                Name = t.Name
-            }).ToList()
-        };
-
-        return projectDto;
+        return project;
     }
 
     public async Task Add(ProjectWithIdArray p){

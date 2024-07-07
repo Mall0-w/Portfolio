@@ -116,7 +116,7 @@ function ProjectCard({ project, index, width, active }) {
                             </>
                             : 
                             <>
-                            <Grid item container xs={9} sx={{wordBreak:'break-all', overflowY:'auto'}}>
+                            <Grid item container xs={8} sx={{wordBreak:'break-all', overflowY:'auto'}}>
                                 <Typography variant="body" fontSize={20} color="primary">{project.desc}</Typography>
                             </Grid>
                             <Grid item xs={1} container sx={{minWidth:'100%', paddingLeft:'3%', paddingRight:'3%'}}>

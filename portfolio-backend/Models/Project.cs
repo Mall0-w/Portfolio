@@ -11,6 +11,8 @@ public class ProjectBase{
     public DateOnly? FinishedOn {get; set;}
 
     public string? Link {get; set;}
+
+    public string? Github {get; set;}
     
 }
 public class Project : ProjectBase
