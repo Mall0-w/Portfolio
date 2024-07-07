@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 import { useEffect, useState } from "react";
 
-export default function DragCarousel({ projects, makeMoveRight, makeMoveLeft }) {
+export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 
     const DRAG_THRESHOLD = 50;
 
@@ -19,15 +19,12 @@ export default function DragCarousel({ projects, makeMoveRight, makeMoveLeft }) 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(()=>{
+        setActiveSlide(index)
+        console.log('active slide', index)
+    },[index])
+
     const dragX = useMotionValue(0);
-
-    const moveRight = () =>{
-        setActiveSlide(Math.min(activeSlide + 1, projects.length - 1));
-    }
-
-    const moveLeft = () => {
-        setActiveSlide(Math.max(activeSlide - 1, 0));
-    }
 
     const onEndDrag = () => {
 

@@ -1,11 +1,16 @@
-import { Box, Card, CardContent, CardHeader, Typography, Grid, CardActions, Chip, Paper, Divider, Link } from "@mui/material"
+import { Box, Button, Grid, IconButton,} from "@mui/material"
 import { forwardRef, useState, useEffect } from "react"
 import DragCarousel from "../Carousel/DragCarousel";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import {motion, AnimatePresence} from 'framer-motion'
+import { Colors } from "../Constants/Colours";
 
 const Projects = forwardRef((props, ref) => {
     const [projects, setProjects] = useState([])
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(true)
+    const [projectIndex, setProjectIndex] = useState(0)
 
     const PROJECTS_TO_LOAD = 8
 
@@ -29,11 +34,53 @@ const Projects = forwardRef((props, ref) => {
         getProjects(PROJECTS_TO_LOAD);
     }, [])
 
+    const moveRight = () => {
+        setProjectIndex(Math.min(projectIndex+1, projects.length - 1))
+    }
+
+    const moveLeft = () => {
+        setProjectIndex(Math.max(0, projectIndex -1))
+    }
+
     return (
         <Box id="projects" ref={ref}
         sx={{minHeight:"100vh", width:"100%",  display:"flex"}}>
             {projects.length > 0 ?
-            <DragCarousel projects={projects}/> :
+            <>
+            <Grid item container xs={1} md={0.5} sx={{justifyContent:'flex-end', alignItems:'center'}}>
+                <motion.button
+                whileTap={{
+                    scale:0.9,
+                }}
+                whileHover={{scale:1.1}}
+                style={{border:'none', background: 'transparent'}}
+                onTap={moveLeft}
+                >
+                    <IconButton onClick={moveLeft} disabled={projectIndex <= 0} color="primary">
+                        <ArrowBackIosIcon/>
+                    </IconButton>
+                </motion.button>
+            </Grid>
+            <Grid item container xs={10} md={11} sx={{width:"100%", minHeight:'100%', display:'flex'}}>
+                <DragCarousel projects={projects} index={projectIndex} 
+                moveRight={moveRight} moveLeft={moveLeft}/>
+            </Grid> 
+            <Grid item container xs={1} md={0.5}  sx={{justifyContent:'flex-start', alignItems:'center'}}>
+                <motion.button
+                whileTap={{
+                    scale:0.9,
+                }}
+                whileHover={{scale:1.1}}
+                style={{ border:'none', background: 'transparent'}}
+                onTap={moveRight}
+                >
+                <IconButton onClick={moveRight} disabled={projectIndex >= projects.length - 1} color="primary">
+                    <ArrowForwardIosIcon/>
+                </IconButton>
+                </motion.button>
+            </Grid>
+            </>
+            :
             <></>}
         </Box>
     )
