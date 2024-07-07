@@ -3,7 +3,7 @@ import { forwardRef, useEffect, useState } from "react"
 import { motion, AnimatePresence, useTransform } from "framer-motion";
 import { Colors } from "../Constants/Colours";
 import Typewriter from 'typewriter-effect';
-import {InputValidator} from '../Classes/InputValidator'
+import {Validator} from '../Classes/Validator'
 import { EmailHandler } from "../Classes/EmailHandler";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ResumeDownload from "../Misc Components/ResumeDownload";
@@ -29,7 +29,7 @@ const Contact = forwardRef(({loaded}, ref) => {
     async function submitContact(){
         console.log(name, email, message)
         try{
-            InputValidator.validateContactForm(name, email, message)
+            Validator.validateContactForm(name, email, message)
             // setResponseObj({status:'ok', message:"email sent!", statusCode:200})
             let resp = await EmailHandler.sendContactEmails(name, email, message)
             let json = await resp.json()
@@ -46,7 +46,7 @@ const Contact = forwardRef(({loaded}, ref) => {
     }
 
     const isValidEmail = () => {
-        return email === null || InputValidator.isValidEmail(email)
+        return email === null || Validator.isValidEmail(email)
     }
 
     const isValidString = (str) => {
