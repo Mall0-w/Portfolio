@@ -1,7 +1,9 @@
-import { Box, Paper, Typography, Grid, Chip } from "@mui/material";
+import { Box, Paper, Typography, Grid, Chip, Button } from "@mui/material";
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 import { useEffect, useState } from "react";
 import { Colors } from "../Constants/Colours";
+import HoverButton from "../Buttons/HoverButton";
+import OpenButton from "../Buttons/OpenButton";
 
 export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 
@@ -65,7 +67,16 @@ export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 }
 
 function ProjectCard({ project, index, width, active }) {
-    console.log('test', project.technologies, project)
+
+    const [isFlipped, setIsFlipped] = useState(false)
+    const [isAnimating, setIsAnimating] = useState(false)
+
+    const toggleFlip = () => {
+        if(isAnimating)
+            return;
+        setIsAnimating(true)
+        setIsFlipped(!isFlipped)
+    }
 
     return (
         <AnimatePresence>
@@ -74,25 +85,61 @@ function ProjectCard({ project, index, width, active }) {
                     scale: active ? 1 : 0.9
                 }}
                 style={{ height: '100%', minWidth: width }}>
-                <Paper sx={{ width: '100%', height: '100%', border:`2px ${Colors.main.primary} solid`, background:'black' }}>
-                    <Grid item container sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', 
-                        alignItems:'center', padding:'2%'}}>
-                        <Grid item xs={10}>
-                            <Typography align="center" variant="h1" color="primary">{project.name}</Typography>
-                        </Grid>
-                        <Grid item container xs={2} sx={{minWidth:'100%', height:'100%', justifyContent:'flex-start', alignItems:'center', display:'flex', flexDirection:'row'}}>
-                            {project.technologies.map((t) => (
-                                <Grid item container xs={3} md={2}>
-                                <motion.div
-                                whileHover={{scale:1.1}}
+                <motion.div
+                initial={false}
+                animate={{rotateY: isFlipped ? 180 : 360}}
+                transition={{duration:0.3, animationDirection:'normal'}}
+                onAnimationComplete={()=>setIsAnimating(false)}
+                style={{height:'100%', width:'100%'}}
+                >
+                    {}
+                    <Paper sx={{ width: '100%', height: '100%', border:`2px ${Colors.main.primary} solid`, background:'black' }}>
+                        <Grid item container sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', 
+                            alignItems:'center', transform: isFlipped ? 'rotateY(180deg)' : undefined}} spacing={2}>
+                            {!isFlipped ? <>
+                            <Grid item xs={7}>
+                                <Typography align="center" variant="h1" color="primary">{project.name}</Typography>
+                            </Grid>
+                            <Grid item container xs={2} sx={{minWidth:'100%', height:'100%', justifyContent:'flex-start', alignItems:'flex-start', 
+                                display:'flex', flexDirection:'row', margin:'2%'}} spacing={1}>
+                                {project.technologies.map((t) => (
+                                    <Grid item>
+                                    <motion.div
+                                    whileHover={{scale:1.1}}
+                                    >
+                                        <Chip label={<Typography fontSize={24} color="black">{t.name}</Typography>} size="medium"/>
+                                    </motion.div>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            </>
+                            : 
+                            <>
+                            <Grid item container xs={9} sx={{wordBreak:'break-all', overflowY:'auto'}}>
+                                <Typography variant="body" fontSize={20} color="primary">{project.desc}</Typography>
+                            </Grid>
+                            <Grid item xs={1} container sx={{minWidth:'100%', justifyContent:'flex-end', paddingLeft:'3%', paddingRight:'3%'}}>
+                                {project.link ? <OpenButton link={project.link}/> : <></>}
+                            </Grid>
+                            </>
+                            }
+                            <Grid item container xs={1} sx={{minWidth:'50%', justifyContent:'center', alignItems:'center', display:'flex'}}>
+                                <motion.button
+                                    whileTap={{
+                                        scale:0.9,
+                                    }}
+                                    whileHover={{scale:1.1, borderColor:Colors.main.secondary}}
+                                    style={{borderColor:Colors.main.primary, borderRadius:4, width:'100%', background: 'transparent', alignItems:'center', justifyContent:'center'}}
+                                    onTap={toggleFlip}
                                 >
-                                    <Chip label={<Typography fontSize={24} color="black">{t.name}</Typography>} size="medium"/>
-                                </motion.div>
-                                </Grid>
-                            ))}
+                                    <HoverButton fullWidth onClick={toggleFlip}>
+                                        <Typography fontSize={20}>Flip Card</Typography>
+                                    </HoverButton>
+                                </motion.button>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Paper>
+                    </Paper>
+                </motion.div>
             </motion.div>
         </AnimatePresence>
     );

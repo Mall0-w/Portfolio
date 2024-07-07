@@ -1,6 +1,6 @@
-import GitHubIcon from "@mui/icons-material/GitHub"
+import LinkIcon from '@mui/icons-material/Link';
 import { IconButton, useTheme } from "@mui/material"
-function GitHubButton({link, transform=true}){
+function OpenButton({link, transform=true}){
 
     const theme = useTheme()
 
@@ -13,11 +13,11 @@ function GitHubButton({link, transform=true}){
         },
     }
     return(
-        <IconButton onClick={() => window.open(link || process.env.REACT_APP_GITHUB)} size="large" 
+        <IconButton onClick={() => window.open(link)} size="large" 
         sx={buttonStyle}>
-            <GitHubIcon fontSize="large" />
+            <LinkIcon fontSize="large" />
         </IconButton>
     )
 }
 
-export default GitHubButton
+export default OpenButton
