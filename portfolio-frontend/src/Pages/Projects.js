@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton,} from "@mui/material"
+import { Box, Button, Grid, IconButton, Typography,} from "@mui/material"
 import { forwardRef, useState, useEffect } from "react"
 import DragCarousel from "../Carousel/DragCarousel";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -12,7 +12,7 @@ const Projects = forwardRef((props, ref) => {
     const [loading, setLoading] = useState(true)
     const [projectIndex, setProjectIndex] = useState(0)
 
-    const PROJECTS_TO_LOAD = 8
+    const PROJECTS_TO_LOAD = -1
 
     // Function used to retrieve projects from backend
     const getProjects = async (projectsToLoad=10, page=0) => {
@@ -45,6 +45,9 @@ const Projects = forwardRef((props, ref) => {
     return (
         <Box id="projects" ref={ref}
         sx={{minHeight:"100vh", width:"100%",  display:"flex"}}>
+            <Box sx={{minHeight:"100%", width:"100%",  display:"flex", flexDirection:'column'}}>
+                <Typography variant="h2" color="secondary" align="center">Check Out My Recent Projects</Typography>
+            <Box sx={{minHeight:"100%", width:"100%",  display:"flex", flexDirection:'row'}}>
             {projects.length > 0 ?
             <>
             <Grid item container xs={1} md={0.5} sx={{justifyContent:'flex-end', alignItems:'center'}}>
@@ -82,6 +85,8 @@ const Projects = forwardRef((props, ref) => {
             </>
             :
             <></>}
+            </Box>
+            </Box>
         </Box>
     )
 })
