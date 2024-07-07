@@ -1,0 +1,8 @@
+card flip animation for projects
+finish project cards
+
+resume follow mouse
+
+fix video, comission new video from ethan
+
+remove post / put endpoints for projects/technologies from backend

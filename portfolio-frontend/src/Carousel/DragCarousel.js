@@ -1,6 +1,7 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, Grid, Chip } from "@mui/material";
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 import { useEffect, useState } from "react";
+import { Colors } from "../Constants/Colours";
 
 export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 
@@ -49,6 +50,7 @@ export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
                     animate={{
                         translateX: `${-1 * ((activeSlide - 1) / projectsPerPage) * 100}%`
                     }}
+                    whileTap={{cursor:'grabbing'}}
                     onDragEnd={onEndDrag}
                 >
                     {projects.map((p, index) => (
@@ -63,16 +65,33 @@ export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 }
 
 function ProjectCard({ project, index, width, active }) {
+    console.log('test', project.technologies, project)
+
     return (
         <AnimatePresence>
             <motion.div
-
                 animate={{
                     scale: active ? 1 : 0.9
                 }}
                 style={{ height: '100%', minWidth: width }}>
-                <Paper sx={{ width: '100%', height: '100%' }}>
-                    <Typography color="primary">{index}</Typography>
+                <Paper sx={{ width: '100%', height: '100%', border:`2px ${Colors.main.primary} solid`, background:'black' }}>
+                    <Grid item container sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', 
+                        alignItems:'center', padding:'2%'}}>
+                        <Grid item xs={10}>
+                            <Typography align="center" variant="h1" color="primary">{project.name}</Typography>
+                        </Grid>
+                        <Grid item container xs={2} sx={{minWidth:'100%', height:'100%', justifyContent:'flex-start', alignItems:'center', display:'flex', flexDirection:'row'}}>
+                            {project.technologies.map((t) => (
+                                <Grid item container xs={3} md={2}>
+                                <motion.div
+                                whileHover={{scale:1.1}}
+                                >
+                                    <Chip label={<Typography fontSize={24} color="black">{t.name}</Typography>} size="medium"/>
+                                </motion.div>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
                 </Paper>
             </motion.div>
         </AnimatePresence>
