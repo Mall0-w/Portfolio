@@ -6,6 +6,7 @@ import Typewriter from 'typewriter-effect';
 import {InputValidator} from '../Classes/InputValidator'
 import { EmailHandler } from "../Classes/EmailHandler";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ResumeDownload from "../Misc Components/ResumeDownload";
 
 const Contact = forwardRef(({loaded}, ref) => {
     const [email, setEmail] = useState(null)
@@ -59,7 +60,10 @@ const Contact = forwardRef(({loaded}, ref) => {
 
     return (
         <Box id="contact" ref={ref} 
-        sx={{minHeight:"40vh", width:"100%", display:'flex', alignItems:'flex-start'}}>
+        sx={{minHeight:"40vh", width:"100%", display:'flex', alignItems:'flex-start', flexDirection:'column'}}>
+            <Box sx={{paddingBottom:'10%', justifyContent:'center', alignItems:'center', width:'100%'}}>
+            <ResumeDownload/>
+            </Box>
             <Grid container sx={{width:'100%', height:'100%', padding:'1%', display:'flex', justifyContent:'center', alignItems:'center'}} spacing={2}>
                 <Grid item container lg={7} md={12} sm={12} xs={12} 
                 sx={{width:'100%', height:'100%', justifyContent:'center', alignItems:'center', display:'flex', flexDirection:'column'}}>

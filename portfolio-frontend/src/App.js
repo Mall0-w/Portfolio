@@ -62,7 +62,7 @@ function App(props) {
     return (
       <Navigation updateTab={(v) => navToRef(v)} parentTab={currTab} navBarRef={navBarRef}>
         <Home ref={sectionRefs.current['home']} navBarRef={navBarRef}/>
-        <Box sx={{padding:'1.5%'}}>
+        <Box sx={{padding:'1.5%', justifyContent:'center', display:'flex', flexDirection:'column'}}>
           <About ref={sectionRefs.current['about']} loaded={currTab === 'about'}/>
           <Projects ref={sectionRefs.current['projects']}/>
           <Contact ref={sectionRefs.current['contact']} loaded={currTab === 'contact'}/>
