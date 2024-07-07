@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Colors } from "../Constants/Colours";
 import HoverButton from "../Buttons/HoverButton";
 import OpenButton from "../Buttons/OpenButton";
+import GitHubButton from "../Buttons/GitHubButton";
 
 export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 
@@ -118,8 +119,14 @@ function ProjectCard({ project, index, width, active }) {
                             <Grid item container xs={9} sx={{wordBreak:'break-all', overflowY:'auto'}}>
                                 <Typography variant="body" fontSize={20} color="primary">{project.desc}</Typography>
                             </Grid>
-                            <Grid item xs={1} container sx={{minWidth:'100%', justifyContent:'flex-end', paddingLeft:'3%', paddingRight:'3%'}}>
-                                {project.link ? <OpenButton link={project.link}/> : <></>}
+                            <Grid item xs={1} container sx={{minWidth:'100%', paddingLeft:'3%', paddingRight:'3%'}}>
+                                <Grid item container xs={6} sx={{justifyContent:'flex-start'}}>
+                                    {project.github ? <GitHubButton link={project.github}/> : <></>}
+                                </Grid>
+                                <Grid item container xs={6} sx={{justifyContent:'flex-end'}}>
+                                    {project.link ? <OpenButton link={project.link}/> : <></>}
+                                </Grid>
+                                
                             </Grid>
                             </>
                             }
