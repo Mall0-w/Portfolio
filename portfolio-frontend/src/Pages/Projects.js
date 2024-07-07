@@ -1,8 +1,6 @@
 import { Box, Card, CardContent, CardHeader, Typography, Grid, CardActions, Chip, Paper, Divider, Link } from "@mui/material"
 import { forwardRef, useState, useEffect } from "react"
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import MaxTypography from "../Misc Components/MaxTypography";
-import DragCarousel from "../Misc Components/DragCarousel";
+import DragCarousel from "../Carousel/DragCarousel";
 
 const Projects = forwardRef((props, ref) => {
     const [projects, setProjects] = useState([])
