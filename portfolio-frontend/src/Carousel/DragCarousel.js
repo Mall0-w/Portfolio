@@ -41,7 +41,7 @@ export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
     };
 
     return (
-        <Box sx={{ width: '100%', minHeight: '100%', overflowX: 'hidden', cursor: 'grab', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: '100%', minHeight: '100%', cursor: 'grab', display: 'flex', alignItems: 'center' }}>
             {projects.length > 0 ?
                 <motion.div
                     drag="x"

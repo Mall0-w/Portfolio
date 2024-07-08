@@ -47,10 +47,10 @@ const Projects = forwardRef((props, ref) => {
         sx={{minHeight:"80vh", width:"100%",  display:"flex"}}>
             <Box sx={{display:"flex", flexDirection:'column', flex:1, width:'100%'}}>
                 <Typography variant="h2" color="secondary" align="center">Check Out My Recent Projects</Typography>
-            <Box sx={{flex:1, width:"100%",  display:"flex", flexDirection:'row'}}>
+            <Box sx={{flex:1, width:"100%",  display:"flex", flexDirection:'row',  overflowX: 'hidden'}}>
             {projects.length > 0 ?
             <>
-            <Grid item container xs={1} md={0.5} sx={{justifyContent:'flex-end', alignItems:'center'}}>
+            <Grid item container xs={1} md={0.5} sx={{justifyContent:'flex-end', alignItems:'center', zIndex:2}}>
                 <motion.button
                 whileTap={{
                     scale:0.9,
@@ -64,11 +64,11 @@ const Projects = forwardRef((props, ref) => {
                     </IconButton>
                 </motion.button>
             </Grid>
-            <Grid item container xs={10} md={11} sx={{width:"100%", minHeight:'100%', display:'flex'}}>
+            <Grid item container xs={10} md={11} sx={{width:"100%", minHeight:'100%', display:'flex', zIndex:1}}>
                 <DragCarousel projects={projects} index={projectIndex} 
                 moveRight={moveRight} moveLeft={moveLeft}/>
             </Grid> 
-            <Grid item container xs={1} md={0.5}  sx={{justifyContent:'flex-start', alignItems:'center'}}>
+            <Grid item container xs={1} md={0.5}  sx={{justifyContent:'flex-start', alignItems:'center', zIndex:2}}>
                 <motion.button
                 whileTap={{
                     scale:0.9,
