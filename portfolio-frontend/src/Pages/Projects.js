@@ -44,10 +44,10 @@ const Projects = forwardRef((props, ref) => {
 
     return (
         <Box id="projects" ref={ref}
-        sx={{minHeight:"100vh", width:"100%",  display:"flex"}}>
-            <Box sx={{minHeight:"100%", width:"100%",  display:"flex", flexDirection:'column'}}>
+        sx={{minHeight:"80vh", width:"100%",  display:"flex"}}>
+            <Box sx={{display:"flex", flexDirection:'column', flex:1, width:'100%'}}>
                 <Typography variant="h2" color="secondary" align="center">Check Out My Recent Projects</Typography>
-            <Box sx={{minHeight:"100%", width:"100%",  display:"flex", flexDirection:'row'}}>
+            <Box sx={{flex:1, width:"100%",  display:"flex", flexDirection:'row'}}>
             {projects.length > 0 ?
             <>
             <Grid item container xs={1} md={0.5} sx={{justifyContent:'flex-end', alignItems:'center'}}>

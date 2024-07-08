@@ -1,5 +1,7 @@
-card flip animation for projects
-finish project cards
+card flip animation for projects [done]
+finish project cards [done]
+
+projects extend past container, need to fix [done?] (fuck mui grid and the fact you can't make it go full height)
 
 resume follow mouse
 

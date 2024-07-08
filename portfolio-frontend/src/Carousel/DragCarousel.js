@@ -45,13 +45,14 @@ export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
             {projects.length > 0 ?
                 <motion.div
                     drag="x"
-                    style={{ width: '100%', height: '70%', display: 'flex', x: dragX }}
+                    style={{ width: '100%', height: '80%', display: 'flex', x: dragX, flex:1 }}
                     dragConstraints={{
                         left: 0,
                         right: 0
                     }}
                     animate={{
-                        translateX: `${-1 * ((activeSlide - 1) / projectsPerPage) * 100}%`
+                        //adding min in so it doesn't auto scroll for a single project per page
+                        translateX: `${-1 * ((activeSlide - (Math.min(1, projectsPerPage-1))) / projectsPerPage) * 100}%`
                     }}
                     whileTap={{cursor:'grabbing'}}
                     onDragEnd={onEndDrag}
@@ -85,52 +86,44 @@ function ProjectCard({ project, index, width, active }) {
                 animate={{
                     scale: active ? 1 : 0.9
                 }}
-                style={{ height: '100%', minWidth: width }}>
-                <motion.div
-                initial={false}
-                animate={{rotateY: isFlipped ? 180 : 360}}
-                transition={{duration:0.3, animationDirection:'normal'}}
-                onAnimationComplete={()=>setIsAnimating(false)}
-                style={{height:'100%', width:'100%'}}
-                >
-                    {}
-                    <Paper sx={{ width: '100%', height: '100%', border:`2px ${Colors.main.primary} solid`, background:'black' }}>
-                        <Grid item container sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', 
-                            alignItems:'center', transform: isFlipped ? 'rotateY(180deg)' : undefined}} spacing={2}>
+                style={{ flex: 1, minWidth: width, height:'100%' }}>
+                    <motion.div
+                    initial={false}
+                    animate={{rotateY: isFlipped ? 180 : 360}}
+                    transition={{duration:0.3, animationDirection:'normal'}}
+                    onAnimationComplete={()=>setIsAnimating(false)}
+                    style={{height:'100%', width:'100%', display:'flex'}}
+                    >
+                    <Box sx={{ width: '100%', height: '100%', border:`2px ${Colors.main.primary} solid`, background:'black', padding:'2%' }}>
+                        <Box sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', gap:'3%',
+                            alignItems:'center', transform: isFlipped ? 'rotateY(180deg)' : undefined}}>
                             {!isFlipped ? <>
-                            <Grid item xs={7}>
-                                <Typography align="center" variant="h1" color="primary">{project.name}</Typography>
-                            </Grid>
-                            <Grid item container xs={2} sx={{minWidth:'100%', height:'100%', justifyContent:'flex-start', alignItems:'flex-start', 
-                                display:'flex', flexDirection:'row', margin:'2%'}} spacing={1}>
+                            <Box sx={{width:'100%' ,height:'60%', display:'flex'}}>
+                                <Typography align="center" variant="h2" color="primary">{project.name}</Typography>
+                            </Box>
+                            <Box sx={{margin:'2%', height:'15%', flexDirection:'row', width:'100%', display:'flex', overflowy:"auto", padding:'2%'}} spacing={1}>
                                 {project.technologies.map((t) => (
-                                    <Grid item>
                                     <motion.div
                                     whileHover={{scale:1.1}}
+                                    style={{display:'flex'}}
                                     >
                                         <Chip label={<Typography fontSize={24} color="black">{t.name}</Typography>} size="medium"/>
                                     </motion.div>
-                                    </Grid>
                                 ))}
-                            </Grid>
+                            </Box>
                             </>
                             : 
                             <>
-                            <Grid item container xs={8} sx={{wordBreak:'break-all', overflowY:'auto'}}>
+                            <Box sx={{wordBreak:'break-all', width:'100%', height:'65%', overflowY:'auto'}}>
                                 <Typography variant="body" fontSize={20} color="primary">{project.desc}</Typography>
-                            </Grid>
-                            <Grid item xs={1} container sx={{minWidth:'100%', paddingLeft:'3%', paddingRight:'3%'}}>
-                                <Grid item container xs={6} sx={{justifyContent:'flex-start'}}>
+                            </Box>
+                            <Box sx={{paddingLeft:'3%', paddingRight:'3%', height:'15%', justifyContent:'space-between', alignItems:'center', flexDirection:'row'}}>
                                     {project.github ? <GitHubButton link={project.github}/> : <></>}
-                                </Grid>
-                                <Grid item container xs={6} sx={{justifyContent:'flex-end'}}>
                                     {project.link ? <OpenButton link={project.link}/> : <></>}
-                                </Grid>
-                                
-                            </Grid>
+                            </Box>
                             </>
                             }
-                            <Grid item container xs={1} sx={{minWidth:'50%', justifyContent:'center', alignItems:'center', display:'flex'}}>
+                            <Box sx={{height:'15%', minWidth:'50%', justifyContent:'center', alignItems:'center', display:'flex'}}>
                                 <motion.button
                                     whileTap={{
                                         scale:0.9,
@@ -143,9 +136,9 @@ function ProjectCard({ project, index, width, active }) {
                                         <Typography fontSize={20}>Flip Card</Typography>
                                     </HoverButton>
                                 </motion.button>
-                            </Grid>
-                        </Grid>
-                    </Paper>
+                            </Box>
+                        </Box>
+                    </Box>
                 </motion.div>
             </motion.div>
         </AnimatePresence>
