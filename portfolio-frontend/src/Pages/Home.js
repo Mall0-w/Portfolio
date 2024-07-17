@@ -7,7 +7,7 @@ import { LoadingTitleHandler } from "../Classes/TitleHandler";
 const Home = forwardRef(({navBarRef}, ref) => {
   const [showVideo, setShowVideo] = useState(true);
 
-  const titleHandler = new LoadingTitleHandler();
+  const [titleHandler, setTitleHandler] = useState(new LoadingTitleHandler())
 
   const handleVideoStart = () => {
     setShowVideo(true)
@@ -33,8 +33,6 @@ const Home = forwardRef(({navBarRef}, ref) => {
     
     let navbarHeight = navBarRef.current.offsetHeight
     let windowHeight = window.innerHeight
-
-    console.log('nH', navbarHeight, 'wh', windowHeight, 'total', windowHeight - navbarHeight)
     return windowHeight - navbarHeight
     //get height of appbar
     //get height of window

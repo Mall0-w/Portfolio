@@ -3,8 +3,10 @@ finish project cards [done]
 
 projects extend past container, need to fix [done?] (fuck mui grid and the fact you can't make it go full height)
 
-resume follow mouse
+resume follow mouse [doesn't end up look good]
 
 fix video, comission new video from ethan
 
 remove post / put endpoints for projects/technologies from backend
+
+push live after dockerizing
