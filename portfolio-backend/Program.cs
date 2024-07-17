@@ -2,33 +2,37 @@ using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 using Portfolio.db;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
+
 // Add services to the container.
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<PortfolioDb>(options => {
-    options.UseSqlServer(string.Format("Server={0};Database={1};Trusted_Connection=True;TrustServerCertificate=True",
-        Env.GetString("SQL_SERVER"), Env.GetString("SQL_DATABASE")));
-    });
+
+var connectionString = string.Format("Server={0};Database={1};User Id={2};Password=\"{3}\";Trusted_Connection=False;TrustServerCertificate=True",
+        Env.GetString("SQL_SERVER"), Env.GetString("SQL_DATABASE"), Env.GetString("SQL_USER"), Env.GetString("SQL_PASSWORD"));
+
+builder.Services.AddDbContext<PortfolioDb>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-var  MyAllowSpecificOrigins = "PortfolioCors";
+var MyAllowSpecificOrigins = "PortfolioCors";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy  =>
+                      policy =>
                       {
-                          policy.WithOrigins($"{Env.GetString("FRONTEND")}")
+                          policy
+                          // policy.WithOrigins($"{Env.GetString("FRONTEND")}", "http://localhost:3000")
+                          .SetIsOriginAllowed((p) => true)
                           .AllowAnyMethod()
-                          .WithHeaders(["Content-Type", "Authorization", "X-Requested-With"]);
+                          .WithHeaders(new[] { "Content-Type", "Authorization", "X-Requested-With" });
                       });
 });
 
@@ -43,8 +47,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", ()=>{
-    return "Hello World!";
+app.MapGet("/", () =>
+{
+    return connectionString;
 });
 
 app.UseHttpsRedirection();

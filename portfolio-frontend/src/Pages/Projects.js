@@ -17,7 +17,8 @@ const Projects = forwardRef((props, ref) => {
     // Function used to retrieve projects from backend
     const getProjects = async (projectsToLoad=10, page=0) => {
         try {
-            let response = await fetch(`${process.env.REACT_APP_BACKEND}/project?limit=${projectsToLoad}&page=${page}`)
+            console.log(`http://portfolio-backend:80/project?limit=${projectsToLoad}&page=${page}`)
+            let response = await fetch(`http://portfolio-backend/project?limit=${projectsToLoad}&page=${page}`)
             let json = await response.json()
             if (!response.ok) {
                 setError(json.message)

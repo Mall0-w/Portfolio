@@ -12,8 +12,8 @@ using Portfolio.db;
 namespace portfolio_backend.Migrations
 {
     [DbContext(typeof(PortfolioDb))]
-    [Migration("20240629124400_LinkAddedToProject")]
-    partial class LinkAddedToProject
+    [Migration("20240717191301_InitialCreateRDS")]
+    partial class InitialCreateRDS
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace portfolio_backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ProjectTechnology", b =>
+                {
+                    b.Property<long>("ProjectsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TechnologiesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectsId", "TechnologiesId");
+
+                    b.HasIndex("TechnologiesId");
+
+                    b.ToTable("ProjectTechnology");
+                });
 
             modelBuilder.Entity("Projects.Models.Project", b =>
                 {
@@ -39,6 +54,9 @@ namespace portfolio_backend.Migrations
                     b.Property<DateOnly?>("FinishedOn")
                         .HasColumnType("date");
 
+                    b.Property<string>("Github")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,25 +67,6 @@ namespace portfolio_backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("Projects.Models.ProjectTechMapping", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("ProjectId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TechId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProjectTechMappings");
                 });
 
             modelBuilder.Entity("Tech.Models.Technology", b =>
@@ -85,6 +84,21 @@ namespace portfolio_backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Technologies");
+                });
+
+            modelBuilder.Entity("ProjectTechnology", b =>
+                {
+                    b.HasOne("Projects.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tech.Models.Technology", null)
+                        .WithMany()
+                        .HasForeignKey("TechnologiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

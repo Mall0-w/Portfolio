@@ -5,7 +5,7 @@
 namespace portfolio_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedForeignKeys2 : Migration
+    public partial class InitialCreateRDS : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
