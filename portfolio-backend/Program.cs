@@ -23,22 +23,17 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 var MyAllowSpecificOrigins = "PortfolioCors";
+ 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy
-                          // policy.WithOrigins($"{Env.GetString("FRONTEND")}", "http://localhost:3000")
-                          .SetIsOriginAllowed((p) => true)
-                          .AllowAnyMethod()
-                          .WithHeaders(new[] { "Content-Type", "Authorization", "X-Requested-With" });
-                      });
+    options.AddPolicy(MyAllowSpecificOrigins,
+        policy => policy.WithOrigins($"{Env.GetString("FRONTEND")}", "http://host.docker.internal:80")
+                           .AllowAnyMethod()
+                           .WithHeaders(["Content-Type", "Authorization", "X-Requested-With"])
+        );
 });
 
 var app = builder.Build();
-
-app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -49,12 +44,16 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () =>
 {
-    return connectionString;
+    return "Hello World";
 });
 
-app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
+// ... 
+// UseCors must be between routing and endpoints
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 

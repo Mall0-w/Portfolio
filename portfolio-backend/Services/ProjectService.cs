@@ -19,7 +19,8 @@ public class ProjectService{
          var projects = await db.Projects
                            .Include(p => p.Technologies)
                            .Take((page+1)*limit)
-                           .OrderByDescending(p => p.Id)
+                           .OrderByDescending(p => p.FinishedOn)
+                           .ThenBy(p => p.Id)
                            .ToListAsync();
 
         // var projectDtos = projects.Select(project => new ProjectDto

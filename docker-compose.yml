@@ -13,8 +13,6 @@ services:
       - ./certs:/app/certs  # Mounts local certificates directory into the container
     environment:
       ASPNETCORE_ENVIRONMENT: Development  
-    networks:
-      - stack
 
   portfolio-frontend:
     build:
@@ -24,10 +22,3 @@ services:
       - "80:3000"
     depends_on:
       - portfolio-backend
-    networks:
-      - stack
-
-
-networks:
-  stack:
-    driver: bridge

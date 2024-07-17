@@ -12,7 +12,7 @@ using Portfolio.db;
 namespace portfolio_backend.Migrations
 {
     [DbContext(typeof(PortfolioDb))]
-    [Migration("20240717191301_InitialCreateRDS")]
+    [Migration("20240717195012_InitialCreateRDS")]
     partial class InitialCreateRDS
     {
         /// <inheritdoc />
