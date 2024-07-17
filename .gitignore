@@ -2,3 +2,5 @@
 portfolio-frontend/.env
 *.pem
 *.ppk
+*.crt
+*.key

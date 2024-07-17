@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  portfolio-backend:
+    build:
+      context: ./portfolio-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./certs:/app/certs  # Mounts local certificates directory into the container
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development  # Set the environment variable
+
+  portfolio-frontend:
+    build:
+      context: ./portfolio-frontend
+      dockerfile:  Dockerfile
+    ports:
+      - "80:3000"
+    
