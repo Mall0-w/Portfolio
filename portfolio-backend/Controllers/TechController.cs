@@ -3,6 +3,7 @@ using Tech.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.db;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Tech.Controllers;
 
@@ -27,7 +28,12 @@ public class TechController : ControllerBase{
 
     [HttpPost]
     public async Task<IActionResult> Add(Technology t){
-        await this.service.Add(t);
+        try{
+            await this.service.Add(t);
+        }catch(InvalidOperationException e){
+            return BadRequest(new {Status = 400, Message = e.Message});
+        }
+        
         return CreatedAtAction(nameof(GetById),new {id = t.Id}, t);
     }
 }

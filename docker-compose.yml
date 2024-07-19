@@ -1,6 +1,35 @@
 version: '3.9'
 
 services:
+  # nginx reverse proxy    
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs 
+      - ./vhost:/etc/nginx/vhost.d 
+      - ./html:/usr/share/nginx/html 
+      
+  # reverse proxy let's encrypt companion
+  nginx-proxy-acme:
+    image: nginxproxy/acme-companion
+    container_name: nginx-proxy-acme
+    restart: always
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme:/etc/acme.sh
+    environment:
+        - DEFAULT_EMAIL=kylelewis@rogers.com
+    depends_on:
+      - nginx-proxy
+
   portfolio-backend:
     build:
       context: ./portfolio-backend
@@ -10,8 +39,6 @@ services:
       VIRTUAL_HOST: backend.kodewithkyle.net
       LETSENCRYPT_HOST: backend.kodewithkyle.net
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
-    networks:
-      - webproxy
 
   portfolio-frontend:
     build:
@@ -23,38 +50,5 @@ services:
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
     depends_on:
       - portfolio-backend
-    networks:
-      - webproxy
 
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs:ro
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
-    restart: always
-    networks:
-      - webproxy
-    environment:
-      - DEFAULT_HOST=kodewithkyle.net
-
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
-    restart: always
-    depends_on:
-      - nginx-proxy
-    networks:
-      - webproxy
-    environment:
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-
-networks:
-  webproxy:
-    driver: bridge
+  

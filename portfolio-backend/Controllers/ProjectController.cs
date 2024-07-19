@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.db;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Amazon.SimpleEmail.Model;
 
 namespace Projects.Controllers;
 
@@ -44,7 +45,10 @@ public class ProjectController : ControllerBase
             await service.Add(p);
         }catch(ArgumentException e){
             return NotFound(e.Message);
+        }catch(InvalidOperationException e){
+            return BadRequest(new {Status=400, Message=e.Message});
         }
+        
         return CreatedAtAction(nameof(GetById),new {id = p.Project.Id}, p.Project);
     }
 
@@ -57,6 +61,8 @@ public class ProjectController : ControllerBase
             await service.Update(p);
         }catch(ArgumentException e){
             return NotFound(e.Message);
+        }catch(InvalidOperationException e){
+            return BadRequest(new {Status=400, Message=e.Message});
         }
 
         return NoContent();
@@ -64,7 +70,12 @@ public class ProjectController : ControllerBase
     // DELETE action
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(long id){
-        await service.Delete(id);
+        try{
+            await service.Delete(id);
+        }catch(InvalidOperationException e){
+            return BadRequest(new {Status=400, Message=e.Message});
+        }
+        
         return NoContent();
     }
 }

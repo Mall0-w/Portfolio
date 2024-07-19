@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.db;
 using Projects.Models;
 using Tech.Models;
+using DotNetEnv;
 
 namespace Projects.Services;
 
@@ -12,6 +13,11 @@ public class ProjectService{
     public ProjectService(PortfolioDb db, ILogger<ProjectService> logger){
         this.db = db;
         this._logger = logger;
+        Env.Load();
+    }
+
+    private bool isProduction(){
+        return Env.GetBool("PRODUCTION");
     }
 
     public async Task<ActionResult<IEnumerable<Project>>> GetPagination(int page=0, int limit=10){
@@ -71,6 +77,8 @@ public class ProjectService{
     }
 
     public async Task Add(ProjectWithIdArray p){
+        if(isProduction())
+            throw new InvalidOperationException("Can't add Projects while in production");
         var project = p.Project;
         var ids = p.Technologies;
         if(ids is not null){
@@ -87,6 +95,8 @@ public class ProjectService{
     }   
 
     public async Task Delete(long id){
+        if(isProduction())
+            throw new InvalidOperationException("Can't Delete while in production");
         var p = await db.Projects.FindAsync(id);
         if(p == null)
             return;
@@ -96,6 +106,8 @@ public class ProjectService{
     }
 
     public async Task Update(ProjectWithIdArray proj){
+        if(isProduction())
+            throw new InvalidOperationException("Can't Update while in production");
         var project = proj.Project;
         var ids = proj.Technologies;
         using (var transaction = await db.Database.BeginTransactionAsync()){
