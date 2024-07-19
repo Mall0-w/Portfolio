@@ -9,7 +9,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       VIRTUAL_HOST: backend.kodewithkyle.net
       LETSENCRYPT_HOST: backend.kodewithkyle.net
-      LETSENCRYPT_EMAIL: your-email@example.com
+      LETSENCRYPT_EMAIL: kylelewis@rogers.com
 
   portfolio-frontend:
     build:
@@ -18,7 +18,7 @@ services:
     environment:
       VIRTUAL_HOST: kodewithkyle.net
       LETSENCRYPT_HOST: kodewithkyle.net
-      LETSENCRYPT_EMAIL: your-email@example.com
+      LETSENCRYPT_EMAIL: kylelewis@rogers.com
     depends_on:
       - portfolio-backend
 
