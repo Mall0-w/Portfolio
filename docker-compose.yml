@@ -11,7 +11,7 @@ services:
       LETSENCRYPT_HOST: backend.kodewithkyle.net
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
     networks:
-      - webproxy
+      - proxy-tier
 
   portfolio-frontend:
     build:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - portfolio-backend
     networks:
-      - webproxy
+      - proxy-tier
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -37,10 +37,12 @@ services:
       - ./vhost.d:/etc/nginx/vhost.d
       - ./html:/usr/share/nginx/html
     restart: always
-    networks:
-      - webproxy
     environment:
       - DEFAULT_HOST=kodewithkyle.net
+    networks:
+      - proxy-tier
+    labels:
+      - com.github.nginx-proxy.docker-gen
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -50,11 +52,11 @@ services:
     restart: always
     depends_on:
       - nginx-proxy
-    networks:
-      - webproxy
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
+      - NGINX_DOCKER_GEN_CONTAINER=nginx-proxy
+    networks:
+      - proxy-tier
 
 networks:
-  webproxy:
-    driver: bridge
+  proxy-tier:
