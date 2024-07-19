@@ -39,8 +39,6 @@ services:
       VIRTUAL_HOST: backend.kodewithkyle.net
       LETSENCRYPT_HOST: backend.kodewithkyle.net
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
-    networks:
-      - proxy-tier
 
   portfolio-frontend:
     build:
@@ -52,7 +50,5 @@ services:
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
     depends_on:
       - portfolio-backend
-    networks:
-      - proxy-tier
 
   
