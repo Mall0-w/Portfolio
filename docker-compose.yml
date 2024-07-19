@@ -5,30 +5,40 @@ services:
     build:
       context: ./portfolio-backend
       dockerfile: Dockerfile
-    ports:
-      - "8080:80"
-    expose:
-      - 80
     environment:
-      ASPNETCORE_ENVIRONMENT: Development  
+      ASPNETCORE_ENVIRONMENT: Development
+      VIRTUAL_HOST: backend.kodewithkyle.net
+      LETSENCRYPT_HOST: backend.kodewithkyle.net
+      LETSENCRYPT_EMAIL: your-email@example.com
 
   portfolio-frontend:
     build:
       context: ./portfolio-frontend
       dockerfile: Dockerfile
-    expose:
-      - 3000
+    environment:
+      VIRTUAL_HOST: kodewithkyle.net
+      LETSENCRYPT_HOST: kodewithkyle.net
+      LETSENCRYPT_EMAIL: your-email@example.com
     depends_on:
       - portfolio-backend
 
-  nginx:
-    image: nginx:latest
+  nginx-proxy:
+    image: jwilder/nginx-proxy
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs:ro
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+    restart: always
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
+    restart: always
     depends_on:
-      - portfolio-frontend
-      - portfolio-backend
+      - nginx-proxy
