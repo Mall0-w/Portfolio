@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  portfolio-backend:
+    build:
+      context: ./portfolio-backend
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      VIRTUAL_HOST: backend.kodewithkyle.net
+      LETSENCRYPT_HOST: backend.kodewithkyle.net
+      LETSENCRYPT_EMAIL: kylelewis@rogers.com
+    ports:
+      - "8080:80"
+
+  portfolio-frontend:
+    build:
+      context: ./portfolio-frontend
+      dockerfile: Dockerfile
+    environment:
+      VIRTUAL_HOST: kodewithkyle.net
+      LETSENCRYPT_HOST: kodewithkyle.net
+      LETSENCRYPT_EMAIL: kylelewis@rogers.com
+    ports:
+      - "80:3000"
+    depends_on:
+      - portfolio-backend
+
+  
