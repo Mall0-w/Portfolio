@@ -9,16 +9,26 @@ services:
       - "8080:80"
     expose:
       - 80
-    volumes:
-      - ./certs:/app/certs  # Mounts local certificates directory into the container
     environment:
       ASPNETCORE_ENVIRONMENT: Development  
 
   portfolio-frontend:
     build:
       context: ./portfolio-frontend
-      dockerfile:  Dockerfile
-    ports:
-      - "80:3000"
+      dockerfile: Dockerfile
+    expose:
+      - 3000
     depends_on:
+      - portfolio-backend
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
+    depends_on:
+      - portfolio-frontend
       - portfolio-backend
