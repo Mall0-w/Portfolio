@@ -4,3 +4,4 @@ portfolio-frontend/.env
 *.ppk
 *.crt
 *.key
+.ssh
