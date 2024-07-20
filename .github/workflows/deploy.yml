@@ -24,7 +24,7 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no deployer@ec2-15-156-120-62.ca-central-1.compute.amazonaws.com << 'EOF'
+        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_CONNECT }} << 'EOF'
           cd Portfolio/
           git pull
           docker-compose up -d --build
