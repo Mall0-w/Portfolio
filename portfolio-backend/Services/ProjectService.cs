@@ -24,24 +24,12 @@ public class ProjectService{
         //have to select or else technologies will infinetly recurse with projects because many to many
          var projects = await db.Projects
                            .Include(p => p.Technologies)
-                           .Take((page+1)*limit)
-                           .OrderByDescending(p => p.FinishedOn)
+                           .OrderBy(p => p.FinishedOn == null ? 0 : 1) // nulls first
+                           .ThenByDescending(p => p.FinishedOn)
                            .ThenBy(p => p.Id)
+                           .Skip(page * limit)
+                           .Take(limit)
                            .ToListAsync();
-
-        // var projectDtos = projects.Select(project => new ProjectDto
-        // {
-        //     Id = project.Id,
-        //     Name = project.Name,
-        //     Desc = project.Desc,
-        //     FinishedOn = project.FinishedOn,
-        //     Link = project.Link,
-        //     Technologies = project.Technologies.Select(t => new TechnologyDto
-        //     {
-        //         Id = t.Id,
-        //         Name = t.Name
-        //     }).ToList()
-        // }).ToList();
 
         return projects;
     }
@@ -49,22 +37,10 @@ public class ProjectService{
     public async Task<ActionResult<IEnumerable<Project>>> GetAll(){
         var projects = await db.Projects
                            .Include(p => p.Technologies)
-                           .OrderByDescending(p => p.Id)
+                           .OrderBy(p => p.FinishedOn == null ? 0 : 1) // nulls first
+                           .ThenByDescending(p => p.FinishedOn)
+                           .ThenBy(p => p.Id)
                            .ToListAsync();
-
-        // var projectDtos = projects.Select(project => new ProjectDto
-        // {
-        //     Id = project.Id,
-        //     Name = project.Name,
-        //     Desc = project.Desc,
-        //     FinishedOn = project.FinishedOn,
-        //     Link = project.Link,
-        //     Technologies = project.Technologies.Select(t => new TechnologyDto
-        //     {
-        //         Id = t.Id,
-        //         Name = t.Name
-        //     }).ToList()
-        // }).ToList();
 
         return projects;
     }

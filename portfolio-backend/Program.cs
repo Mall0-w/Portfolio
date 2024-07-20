@@ -44,7 +44,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () =>
 {
-    return "Hello World";
+    return "Hello World :)";
 });
 
 app.UseRouting();

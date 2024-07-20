@@ -5,18 +5,18 @@ import { Colors } from "../Constants/Colours";
 import HoverButton from "../Buttons/HoverButton";
 import OpenButton from "../Buttons/OpenButton";
 import GitHubButton from "../Buttons/GitHubButton";
+import { Validator } from "../Classes/Validator";
 
 export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 
     const DRAG_THRESHOLD = 50;
 
-
-    const [projectsPerPage, setProjectsPerPage] = useState(Math.min(3, Math.floor(window.innerWidth / 700) + 1));
+    const [projectsPerPage, setProjectsPerPage] = useState(Validator.isBrowserMobile() ? 1 : Math.min(projects.length, 3));
     const [activeSlide, setActiveSlide] = useState(0);
 
     useEffect(() => {
         const handleResize = () => {
-            setProjectsPerPage(Math.min(3, Math.floor(window.innerWidth / 700) + 1));
+            setProjectsPerPage(Validator.isBrowserMobile() ? 1 : Math.min(projects.length, 3))
         };
 
         window.addEventListener('resize', handleResize);
@@ -25,7 +25,6 @@ export default function DragCarousel({ projects, moveLeft, moveRight, index }) {
 
     useEffect(()=>{
         setActiveSlide(index)
-        console.log('active slide', index)
     },[index])
 
     const dragX = useMotionValue(0);
@@ -95,17 +94,18 @@ function ProjectCard({ project, index, width, active }) {
                     style={{height:'100%', width:'100%', display:'flex'}}
                     >
                     <Box sx={{ width: '100%', height: '100%', border:`2px ${Colors.main.primary} solid`, background:'black', padding:'2%' }}>
-                        <Box sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', gap:'3%',
+                        <Box sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'space-between', gap:'3%',
                             alignItems:'center', transform: isFlipped ? 'rotateY(180deg)' : undefined}}>
                             {!isFlipped ? <>
-                            <Box sx={{width:'100%' ,height:'60%', display:'flex'}}>
+                            <Box sx={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center'}}>
                                 <Typography align="center" variant="h2" color="primary">{project.name}</Typography>
                             </Box>
-                            <Box sx={{margin:'2%', height:'15%', flexDirection:'row', width:'100%', display:'flex', overflowy:"auto", padding:'2%'}} spacing={1}>
+                            <Box sx={{margin:'2%', flexDirection:'row', width:'100%', display:'flex', overflowY:'auto', padding:'2%', flexShrink:1, flexWrap:'wrap'}} spacing={1}>
                                 {project.technologies.map((t) => (
                                     <motion.div
                                     whileHover={{scale:1.1}}
                                     style={{display:'flex'}}
+                                    key={t.name}
                                     >
                                         <Chip label={<Typography fontSize={24} color="black">{t.name}</Typography>} size="medium"/>
                                     </motion.div>
