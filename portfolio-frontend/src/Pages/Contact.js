@@ -28,21 +28,21 @@ const Contact = forwardRef(({loaded}, ref) => {
 
     async function submitContact(){
         console.log(name, email, message)
-        try{
-            Validator.validateContactForm(name, email, message)
-            // setResponseObj({status:'ok', message:"email sent!", statusCode:200})
-            let resp = await EmailHandler.sendContactEmails(name, email, message)
-            let json = await resp.json()
-            if(resp.ok){
-                setResponseObj({status:"ok", message:"Your Email Has Been Sent!", statusCode:resp.status})
-            }else{
-                setResponseObj({status:"error", message:json.message, statusCode:resp.status})
-            }
+        // try{
+        //     Validator.validateContactForm(name, email, message)
+        //     // setResponseObj({status:'ok', message:"email sent!", statusCode:200})
+        //     let resp = await EmailHandler.sendContactEmails(name, email, message)
+        //     let json = await resp.json()
+        //     if(resp.ok){
+        //         setResponseObj({status:"ok", message:"Your Email Has Been Sent!", statusCode:resp.status})
+        //     }else{
+        //         setResponseObj({status:"error", message:json.message, statusCode:resp.status})
+        //     }
 
-        }catch(e){
-            console.error(e)
-            setResponseObj({status:'error', message:e.message})
-        }
+        // }catch(e){
+        //     console.error(e)
+        //     setResponseObj({status:'error', message:e.message})
+        // }
     }
 
     const isValidEmail = () => {
@@ -125,7 +125,7 @@ const Contact = forwardRef(({loaded}, ref) => {
                                 style={{borderColor:Colors.main.primary, borderRadius:4, width:'30%', background: 'transparent'}}
                                 onTap={submitContact}
                             >
-                                <Button fullWidth sx={{background: 'transparent'}} onClick={submitContact}>
+                                <Button fullWidth sx={{background: 'transparent'}}>
                                     <Typography fontSize={20} color="primary">Execute</Typography>
                                 </Button>
                             </motion.button>

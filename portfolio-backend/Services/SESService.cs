@@ -24,7 +24,7 @@ public class SESService{
 
     public async Task<SendEmailResponse[]> HandleContactExchange(ContactEmailReq req){
 
-        var personal = this.ForwardEmailToPersonal($"{req.Name} saw your website and wants to reach out!", req.Message);
+        var personal = this.ForwardEmailToPersonal($"{req.Name} saw your website and wants to reach out!", req.ToAddress, req.Message);
         var recipient = this.SendTextEmail(req.ToAddress, "Thank you for reaching out", 
         @"Thank you for seeing my website and reaching out!
         This is an automated message to let you know that your message has been sent.
@@ -37,8 +37,8 @@ public class SESService{
         return await this.client.SendEmailAsync(createTextEmail(toAddress, subject, body));
     }
 
-    private async Task<SendEmailResponse> ForwardEmailToPersonal(string subject, string body){
-        return  await this.client.SendEmailAsync(createTextEmail(personalMail, subject, body));
+    private async Task<SendEmailResponse> ForwardEmailToPersonal(string subject, string contactEmail, string body){
+        return  await this.client.SendEmailAsync(createTextEmail(personalMail, subject, $"Email: {contactEmail}\n" + body));
     }
 
     private SendEmailRequest createTextEmail(string toAddress, string subject, string body){
