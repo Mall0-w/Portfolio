@@ -9,6 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    concurrency:
+      group: deploy-main
+      cancel-in-progress: false
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
