@@ -85,7 +85,7 @@ const Home = forwardRef(({navBarRef}, ref) => {
               <Typography fontSize={40} color="primary">
                 <Typewriter
                   options={{
-                    strings: "I SEE YOU",
+                    strings: "I SEE YOU :)",
                     autoStart: true,
                     cursor:"_",
                   }}
