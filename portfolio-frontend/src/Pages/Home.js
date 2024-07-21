@@ -3,20 +3,22 @@ import { forwardRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from 'typewriter-effect';
 import { LoadingTitleHandler } from "../Classes/TitleHandler";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const Home = forwardRef(({navBarRef}, ref) => {
+const Home = forwardRef(({ navBarRef }, ref) => {
   const [showVideo, setShowVideo] = useState(true);
-
-  const [titleHandler, setTitleHandler] = useState(new LoadingTitleHandler())
+  const [titleHandler] = useState(new LoadingTitleHandler());
+  const [showArrow, setShowArrow] = useState(false);
+  const [contentHeight, setContentHeight] = useState(window.innerHeight);
 
   const handleVideoStart = () => {
-    setShowVideo(true)
-    titleHandler.startLoading()
-  }
+    setShowVideo(true);
+    titleHandler.startLoading();
+  };
 
   const handleVideoEnd = () => {
     setShowVideo(false);
-    titleHandler.stopLoading()
+    titleHandler.stopLoading();
   };
 
   const variants = {
@@ -25,27 +27,30 @@ const Home = forwardRef(({navBarRef}, ref) => {
     exit: { opacity: 0, x: '-100%' },
   };
 
-  //appbar making 100vh go off screen so have to do it the old fashioned way
-  function getWindowHeight(){
-    
-    if(!navBarRef || !navBarRef.current)
-      return
-    
-    let navbarHeight = navBarRef.current.offsetHeight
-    let windowHeight = window.innerHeight
-    return windowHeight - navbarHeight
-    //get height of appbar
-    //get height of window
-    //window - appbar
-  }
+  //appbar makes 100vh go off screen so have to calculate height manually
+  const calculateHeight = () => {
+    if (navBarRef && navBarRef.current) {
+      const navbarHeight = navBarRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      setContentHeight(windowHeight - navbarHeight);
+    }
+  };
 
-  useEffect(()=>{
-    getWindowHeight()
-  },[navBarRef])
+  useEffect(() => {
+    calculateHeight();
+    window.addEventListener('resize', calculateHeight);
+    return () => {
+      window.removeEventListener('resize', calculateHeight);
+    };
+  }, [navBarRef]);
 
   return (
-    <Box id="home" ref={ref} onClick={()=>handleVideoEnd()}
-    sx={{ minHeight:`${getWindowHeight()}px`, width:"100%", display:"flex", overflowX:"hidden"}}>
+    <Box
+      id="home"
+      ref={ref}
+      onClick={() => handleVideoEnd()}
+      sx={{ height: `${contentHeight}px`, width: "100%", overflow: 'hidden' }}
+    >
       <AnimatePresence>
         {showVideo ? (
           <motion.div
@@ -55,15 +60,15 @@ const Home = forwardRef(({navBarRef}, ref) => {
             exit="exit"
             variants={variants}
             transition={{ duration: 0.5 }}
-            style={{height: '100%', width: '100%', justifyContent:'center', alignItems:'center'}}
+            style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}
           >
-            <Box sx={{ height: '100%', width: '100%', overflow: 'hidden' }}>
+            <Box sx={{ height: '100%', width: '100%' }}>
               <video
                 autoPlay
                 muted
                 playsInline
                 onPlay={handleVideoStart}
-                style={{ objectFit: 'fill', width: '100%', height: '100%' }}
+                style={{ objectFit: 'fill', height: '100%', width: '100%' }}
                 onEnded={handleVideoEnd}
               >
                 <source src={require('../assets/videos/boot.mp4')} type="video/mp4" />
@@ -79,19 +84,38 @@ const Home = forwardRef(({navBarRef}, ref) => {
             exit="exit"
             variants={variants}
             transition={{ duration: 0.5 }}
-            style={{minHeight:'100%', width: '100%', justifyContent:'center', alignItems:'center', display:'flex'}}
+            style={{
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+            onAnimationComplete={() => setShowArrow(true)}
           >
-            <Box sx={{ height: '100%', width: '100%', justifyContent:'center', alignItems:'center', display:'flex', flexDirection:'column'}}>
+            <Box sx={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', display: 'flex' }}>
               <Typography fontSize={40} color="primary">
                 <Typewriter
                   options={{
                     strings: "I SEE YOU",
                     autoStart: true,
-                    cursor:"_",
+                    cursor: "_",
                   }}
                 />
               </Typography>
             </Box>
+            {showArrow &&
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2.5, delay: 1.8 }}
+                style={{ width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+                <Typography fontSize={25} color="primary">Scroll Down</Typography>
+                <KeyboardArrowDownIcon color="primary" />
+              </motion.div>
+            }
           </motion.div>
         )}
       </AnimatePresence>

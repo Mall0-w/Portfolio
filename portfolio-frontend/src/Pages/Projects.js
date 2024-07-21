@@ -1,10 +1,9 @@
-import { Box, Button, Grid, IconButton, Typography,} from "@mui/material"
+import { Box, Grid, IconButton, Typography,} from "@mui/material"
 import { forwardRef, useState, useEffect } from "react"
 import DragCarousel from "../Carousel/DragCarousel";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import {motion, AnimatePresence} from 'framer-motion'
-import { Colors } from "../Constants/Colours";
+import {motion} from 'framer-motion'
 
 const Projects = forwardRef((props, ref) => {
     const [projects, setProjects] = useState([])

@@ -1,4 +1,4 @@
-import { Box, Typography, Grid, Slide } from "@mui/material"
+import { Box, Typography, Grid } from "@mui/material"
 import { forwardRef } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 

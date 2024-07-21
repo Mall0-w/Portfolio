@@ -1,12 +1,12 @@
 import { Box, TextField, Grid, Button, Typography } from "@mui/material"
 import { forwardRef, useEffect, useState } from "react"
-import { motion, AnimatePresence, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Colors } from "../Constants/Colours";
 import Typewriter from 'typewriter-effect';
 import {Validator} from '../Classes/Validator'
-import { EmailHandler } from "../Classes/EmailHandler";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ResumeDownload from "../Misc Components/ResumeDownload";
+import {EmailHandler} from '../Classes/EmailHandler'
 
 const Contact = forwardRef(({loaded}, ref) => {
     const [email, setEmail] = useState(null)
@@ -27,22 +27,21 @@ const Contact = forwardRef(({loaded}, ref) => {
     }
 
     async function submitContact(){
-        console.log(name, email, message)
-        // try{
-        //     Validator.validateContactForm(name, email, message)
-        //     // setResponseObj({status:'ok', message:"email sent!", statusCode:200})
-        //     let resp = await EmailHandler.sendContactEmails(name, email, message)
-        //     let json = await resp.json()
-        //     if(resp.ok){
-        //         setResponseObj({status:"ok", message:"Your Email Has Been Sent!", statusCode:resp.status})
-        //     }else{
-        //         setResponseObj({status:"error", message:json.message, statusCode:resp.status})
-        //     }
+        try{
+            Validator.validateContactForm(name, email, message)
+            // setResponseObj({status:'ok', message:"email sent!", statusCode:200})
+            let resp = await EmailHandler.sendContactEmails(name, email, message)
+            let json = await resp.json()
+            if(resp.ok){
+                setResponseObj({status:"ok", message:"Your Email Has Been Sent!", statusCode:resp.status})
+            }else{
+                setResponseObj({status:"error", message:json.message, statusCode:resp.status})
+            }
 
-        // }catch(e){
-        //     console.error(e)
-        //     setResponseObj({status:'error', message:e.message})
-        // }
+        }catch(e){
+            console.error(e)
+            setResponseObj({status:'error', message:e.message})
+        }
     }
 
     const isValidEmail = () => {

@@ -1,10 +1,5 @@
-import {AppBar, Box, Button, Divider, Grid, IconButton, Paper, Tab, Tabs, Toolbar, Typography, useTheme} from "@mui/material";
-import PropTypes from 'prop-types';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import GitHubButton from "../Buttons/GitHubButton.js";
+import {Box} from "@mui/material";
 import { useEffect, useState } from "react";
-import LinkedInButton from "../Buttons/LinkedInButton.js";
-import HoverButton from "../Buttons/HoverButton.js";
 import NavBar from "../Misc Components/NavBar.js";
 import PageFooter from "./PageFooter.js";
 import { Colors } from "../Constants/Colours.js";
