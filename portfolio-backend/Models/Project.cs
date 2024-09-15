@@ -1,17 +1,26 @@
 using Tech.Models;
-
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Projects.Models;
 
 
 public class ProjectBase{
+
+    [Key]
     public long Id { get; set; }
+    [Required]
+    [Column(TypeName = "varchar(255)")]
     public required string Name { get; set; }
+    [Column(TypeName = "text")]
     public string? Desc { get; set; }
 
     public DateOnly? FinishedOn {get; set;}
 
+    [Column(TypeName = "varchar(255)")]
     public string? Link {get; set;}
 
+    [Column(TypeName = "varchar(255)")]
     public string? Github {get; set;}
     
 }

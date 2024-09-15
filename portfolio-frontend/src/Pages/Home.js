@@ -110,7 +110,7 @@ const Home = forwardRef(({ navBarRef }, ref) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 2.5, delay: 1.8 }}
+                transition={{ duration: 2.5, delay: 2 }}
                 style={{ width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
                 <Typography fontSize={25} color="primary">Scroll Down</Typography>
                 <KeyboardArrowDownIcon color="primary" />

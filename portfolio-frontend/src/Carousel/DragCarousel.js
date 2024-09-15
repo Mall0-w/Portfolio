@@ -103,7 +103,7 @@ function ProjectCard({ project, index, width, active }) {
                             <Box sx={{margin:'2%', flexDirection:'row', width:'100%', display:'flex', overflowY:'auto', padding:'2%', flexShrink:1, flexWrap:'wrap'}} spacing={1}>
                                 {project.technologies.map((t) => (
                                     <motion.div
-                                    whileHover={{scale:1.1}}
+                                    whileHover={{scale:1.05}}
                                     style={{display:'flex'}}
                                     key={t.name}
                                     >

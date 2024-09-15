@@ -26,9 +26,9 @@ public class SESService{
 
         var personal = this.ForwardEmailToPersonal($"{req.Name} saw your website and wants to reach out!", req.ToAddress, req.Message);
         var recipient = this.SendTextEmail(req.ToAddress, "Thank you for reaching out", 
-        @"Thank you for seeing my website and reaching out!
-        This is an automated message to let you know that your message has been sent.
-        I'll try to get in touch with you shortly");
+        $"Thank you for seeing my website and reaching out, {req.Name}!\n"+
+        "This is an automated message to let you know that your message has been sent."+
+        "I'll try to get in touch with you shortly");
 
        return await Task.WhenAll(personal, recipient);
     }

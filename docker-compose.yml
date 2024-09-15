@@ -39,6 +39,8 @@ services:
       VIRTUAL_HOST: backend.kodewithkyle.net
       LETSENCRYPT_HOST: backend.kodewithkyle.net
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
+    depends_on:
+      - portfolio-db
 
   portfolio-frontend:
     build:
@@ -50,5 +52,16 @@ services:
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
     depends_on:
       - portfolio-backend
+  
+  portfolio-db:
+    image: mysql:8.0
+    container_name: portfolio-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: Portfolio
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/db:/var/lib/mysql 
 
   

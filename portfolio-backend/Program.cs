@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 using Portfolio.db;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure; 
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -11,12 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = string.Format("Server={0};Database={1};User Id={2};Password=\"{3}\";Trusted_Connection=False;TrustServerCertificate=True",
-        Env.GetString("SQL_SERVER"), Env.GetString("SQL_DATABASE"), Env.GetString("SQL_USER"), Env.GetString("SQL_PASSWORD"));
+var connectionString = string.Format("Server='{0}';Port='{1}';Database='{2}';User='{3}';Password='{4}';",
+        Env.GetString("SQL_SERVER"), Env.GetString("SQL_PORT"), Env.GetString("SQL_DATABASE"), Env.GetString("SQL_USER"), Env.GetString("SQL_PASSWORD"));
+
+Console.WriteLine("connectionString: " + connectionString);
 
 builder.Services.AddDbContext<PortfolioDb>(options =>
 {
-    options.UseSqlServer(connectionString);
+    // Use MySQL instead of SQL Server
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 builder.Logging.ClearProviders();

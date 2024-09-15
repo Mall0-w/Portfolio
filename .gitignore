@@ -5,3 +5,7 @@ portfolio-frontend/.env
 *.crt
 *.key
 .ssh
+db/
+
+.env
+kodewithkyleprivate

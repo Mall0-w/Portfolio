@@ -12,21 +12,36 @@ services:
       LETSENCRYPT_EMAIL: kylelewis@rogers.com
     ports:
       - "8080:80"
-
-  portfolio-frontend:
-    build:
-      context: ./portfolio-frontend
-      dockerfile: Dockerfile
-    environment:
-      VIRTUAL_HOST: kodewithkyle.net
-      LETSENCRYPT_HOST: kodewithkyle.net
-      LETSENCRYPT_EMAIL: kylelewis@rogers.com
-    #   CHOKIDAR_USEPOLLING: "true"
-    volumes:
-      -  ./portfolio-frontend:/app
-    ports:
-      - "80:3000"
     depends_on:
-      - portfolio-backend
+      - portfolio-db
+  # portfolio-frontend:
+  #   build:
+  #     context: ./portfolio-frontend
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     VIRTUAL_HOST: kodewithkyle.net
+  #     LETSENCRYPT_HOST: kodewithkyle.net
+  #     LETSENCRYPT_EMAIL: kylelewis@rogers.com
+  #   #   CHOKIDAR_USEPOLLING: "true"
+  #   volumes:
+  #     -  ./portfolio-frontend:/app
+  #   ports:
+  #     - "80:3000"
+  #   depends_on:
+  #     - portfolio-backend
+  
+  portfolio-db:
+    image: mysql:8.0
+    container_name: portfolio-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS} # Replace with a strong root password
+      MYSQL_DATABASE: Portfolio # Optional: Define a database to be created
+    ports:
+      - "3307:3306" # Expose MySQL port
+    volumes:
+      - ./db:/var/lib/mysql 
+      
+
+  
 
   
