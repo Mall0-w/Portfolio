@@ -63,6 +63,6 @@ services:
       - "3306:3306"
     volumes:
       - /data/mysql/db:/var/lib/mysql 
-      - /data/mysql/my.cnf:/etc/mysql/my.cnf
+    command: --lower_case_table_names=1
 
   
